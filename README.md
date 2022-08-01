@@ -2,6 +2,14 @@
 
 Library to make React dApps easier using Xpla Extension or Xpla Mobile.
 
+## Installation
+
+Grab the latest version off [NPM](https://www.npmjs.com/package/@xpla/wallet-provider):
+
+```sh
+npm i --save @xpla/wallet-provider
+```
+
 # Basic Usage
 
 First, please add `<meta name="xpla-wallet" />` on your html page.
