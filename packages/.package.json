@@ -1,0 +1,14 @@
+{
+  "author": "Xpla",
+  "license": "Apache-2.0",
+  "repository": "git://github:xpla/wallet-provider",
+  "bugs": "https://github.com/xpla/wallet-provider/issues",
+  "homepage": "https://github.com/xpla/wallet-provider/tree/main/packages/src/{name}",
+  "engines": {
+    "node": ">=16"
+  },
+  "publishConfig": {
+    "cache": "~/.npm",
+    "access": "public"
+  }
+}

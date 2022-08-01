@@ -1,0 +1,38 @@
+{
+  "private": true,
+  "author": "Xpla",
+  "license": "Apache-2.0",
+  "repository": "https://github.com/c2xdev/wallet-provider.git",
+  "workspaces": [
+    "packages"
+  ],
+  "scripts": {
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx}\"",
+    "lint": "eslint \"**/*.{js,jsx,ts,tsx}\"",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "**/src/{**/*,*}.{ts,tsx}": [
+      "prettier --write",
+      "eslint --max-warnings 0 --no-ignore"
+    ]
+  },
+  "devDependencies": {
+    "@handbook/markdown-source-import": "^1.1.0",
+    "@ssen/prettier-config": "^2.0.1",
+    "eslint": "^8.6.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-config-react-app": "^7.0.0",
+    "husky": "^7.0.4",
+    "jest": "^27.4.7",
+    "lint-staged": "^12.1.5",
+    "prettier": "^2.5.1"
+  },
+  "resolutions": {
+    "@xpla/xpla.js": "^0.0.7"
+  },
+  "packageManager": "yarn@3.2.2",
+  "dependencies": {
+    "@xpla/xpla.js": "^0.0.7"
+  }
+}
