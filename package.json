@@ -29,10 +29,10 @@
     "prettier": "^2.5.1"
   },
   "resolutions": {
-    "@xpla/xpla.js": "^0.0.7"
+    "@xpla/xpla.js": "^0.0.8"
   },
   "packageManager": "yarn@3.2.2",
   "dependencies": {
-    "@xpla/xpla.js": "^0.0.7"
+    "@xpla/xpla.js": "^0.0.8"
   }
 }

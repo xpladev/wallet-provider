@@ -3436,9 +3436,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xpla/xpla.js@npm:^0.0.7":
-  version: 0.0.7
-  resolution: "@xpla/xpla.js@npm:0.0.7"
+"@xpla/xpla.js@npm:^0.0.8":
+  version: 0.0.8
+  resolution: "@xpla/xpla.js@npm:0.0.8"
   dependencies:
     "@terra-money/legacy.proto": "npm:@terra-money/terra.proto@^0.1.7"
     "@terra-money/terra.proto": ^2.1.0
@@ -3454,7 +3454,7 @@ __metadata:
     tmp: ^0.2.1
     utf-8-validate: ^5.0.5
     ws: ^7.5.5
-  checksum: 4035df234542221ba2038c4b6213d3cd359bfbf44bea2cad885a80e46e7c853c46fa71053984e8e3f5effa5d714d863700ccfd29298933d265a169ee87bc8090
+  checksum: 8c9a830dee9b1270d84813ac1a09aaba914bb14b48582aea18c41fb561fb778e2ce742c3a50cfc0f2179b2f141d499548218caa47d9ac3a2d9ff58bf7a1ca772
   languageName: node
   linkType: hard
 
@@ -8856,7 +8856,7 @@ __metadata:
     "@walletconnect/iso-crypto": ^1.6.6
     "@walletconnect/types": ^1.6.6
     "@walletconnect/utils": ^1.6.6
-    "@xpla/xpla.js": ^0.0.7
+    "@xpla/xpla.js": ^0.0.8
     bowser: ^2.11.0
     buffer: ^6.0.3
     c8: ^7.11.0
@@ -9815,7 +9815,7 @@ __metadata:
   dependencies:
     "@handbook/markdown-source-import": ^1.1.0
     "@ssen/prettier-config": ^2.0.1
-    "@xpla/xpla.js": ^0.0.7
+    "@xpla/xpla.js": ^0.0.8
     eslint: ^8.6.0
     eslint-config-prettier: ^8.3.0
     eslint-config-react-app: ^7.0.0
