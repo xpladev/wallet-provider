@@ -38,7 +38,7 @@ const FALLBACK: WalletControllerChainOptions = {
 let cache: WalletControllerChainOptions;
 
 export async function getChainOptions(): Promise<WalletControllerChainOptions> {
-  return fetch('http://assets-v2.c2x.world/chains.json')
+  return fetch('https://assets.xpla.io/chains.json')
     .then((res) => res.json())
     .then((data: Record<string, NetworkInfo>) => {
       const chains = Object.values(data);

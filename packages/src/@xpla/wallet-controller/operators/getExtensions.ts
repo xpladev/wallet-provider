@@ -20,7 +20,7 @@ const FALLBACK: Extensions = {
     {
       name: 'Xpla Wallet',
       identifier: 'xplawallet',
-      icon: 'http://assets-v2.c2x.world/icon/extension/icon.png',
+      icon: 'https://assets.xpla.io/icon/extension/icon.png',
       urls: [
         {
           browser: 'chrome',
@@ -45,7 +45,7 @@ export function getExtensions(): Observable<InstallableExtension[]> {
     return of([]);
   }
 
-  return fromFetch('http://assets-v2.c2x.world/extensions.json').pipe<
+  return fromFetch('https://assets.xpla.io/extensions.json').pipe<
     Extensions,
     Extensions,
     InstallableExtension[]

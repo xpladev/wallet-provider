@@ -160,12 +160,12 @@ const CONNECTIONS = {
   [ConnectType.READONLY]: {
     type: ConnectType.READONLY,
     name: 'View an address',
-    icon: 'http://assets-v2.c2x.world/icon/wallet-provider/readonly.svg',
+    icon: 'https://assets.xpla.io/icon/wallet-provider/readonly.svg',
   } as Connection,
   [ConnectType.WALLETCONNECT]: {
     type: ConnectType.WALLETCONNECT,
     name: 'Wallet Connect',
-    icon: 'http://assets-v2.c2x.world/icon/wallet-provider/walletconnect.svg',
+    icon: 'https://assets.xpla.io/icon/wallet-provider/walletconnect.svg',
   } as Connection,
 } as const;
 
