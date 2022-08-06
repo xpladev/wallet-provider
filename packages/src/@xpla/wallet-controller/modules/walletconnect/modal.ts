@@ -108,7 +108,7 @@ function createModalElement({
   const img = document.createElement('img');
   img.setAttribute(
     'src',
-    'https://assets-v2.c2x.world/icon/wallet-provider/walletconnect.svg',
+    'https://assets.xpla.io/icon/wallet-provider/walletconnect.svg',
   );
   img.setAttribute(
     'style',
