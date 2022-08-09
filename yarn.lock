@@ -2853,7 +2853,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=13.7.0":
+"@types/node@npm:*":
   version: 18.6.1
   resolution: "@types/node@npm:18.6.1"
   checksum: 06331f68bc73d93b73977ae19ca87818e004bc7b8e70b0d4f73b0ea5e341a4a1ba6f0e79db8fb75a841af2b8d74552d6b9a8f846b267954689f57effedcf5d77
@@ -2871,6 +2871,13 @@ __metadata:
   version: 11.11.6
   resolution: "@types/node@npm:11.11.6"
   checksum: 075f1c011cf568e49701419acbcb55c24906b3bb5a34d9412a3b88f228a7a78401a5ad4d3e1cd6855c99aaea5ef96e37fc86ca097e50f06da92cf822befc1fff
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:>=13.7.0":
+  version: 18.6.4
+  resolution: "@types/node@npm:18.6.4"
+  checksum: fc453dd2b541f5812ba1a8f957f577727cf2d8aee886f1d5c03eb153b2b3373d2e0953c5bd2b7a5b184073bc317f54ec91f1ec4830a58eda4a833e90654021de
   languageName: node
   linkType: hard
 
@@ -3436,9 +3443,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@xpla/xpla.js@npm:^0.0.8":
-  version: 0.0.8
-  resolution: "@xpla/xpla.js@npm:0.0.8"
+"@xpla/xpla.js@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@xpla/xpla.js@npm:0.1.0"
   dependencies:
     "@terra-money/legacy.proto": "npm:@terra-money/terra.proto@^0.1.7"
     "@terra-money/terra.proto": ^2.1.0
@@ -3453,8 +3460,8 @@ __metadata:
     secp256k1: ^4.0.2
     tmp: ^0.2.1
     utf-8-validate: ^5.0.5
-    ws: ^7.5.5
-  checksum: 8c9a830dee9b1270d84813ac1a09aaba914bb14b48582aea18c41fb561fb778e2ce742c3a50cfc0f2179b2f141d499548218caa47d9ac3a2d9ff58bf7a1ca772
+    ws: ^7.5.8
+  checksum: 43c97409aff316f4c5168979f77a642d84a6503ee68e64bd925e2b484a27f19af178a18a8b34b72f287c82bc8ad846fe22b9956d75dbd396e241c4ecd99cea85
   languageName: node
   linkType: hard
 
@@ -8856,7 +8863,7 @@ __metadata:
     "@walletconnect/iso-crypto": ^1.6.6
     "@walletconnect/types": ^1.6.6
     "@walletconnect/utils": ^1.6.6
-    "@xpla/xpla.js": ^0.0.8
+    "@xpla/xpla.js": ^0.1.0
     bowser: ^2.11.0
     buffer: ^6.0.3
     c8: ^7.11.0
@@ -9815,7 +9822,7 @@ __metadata:
   dependencies:
     "@handbook/markdown-source-import": ^1.1.0
     "@ssen/prettier-config": ^2.0.1
-    "@xpla/xpla.js": ^0.0.8
+    "@xpla/xpla.js": ^0.1.0
     eslint: ^8.6.0
     eslint-config-prettier: ^8.3.0
     eslint-config-react-app: ^7.0.0
@@ -11393,7 +11400,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:^7.4.6, ws@npm:^7.5.5":
+"ws@npm:^7.4.6, ws@npm:^7.5.5, ws@npm:^7.5.8":
   version: 7.5.9
   resolution: "ws@npm:7.5.9"
   peerDependencies:
