@@ -3,8 +3,8 @@
 
 yarn run markdown-source-import README.md "packages/src/**/*.md" --git-add
 
-cp README.md packages/src/@terra-money/wallet-provider/README.md
-git add packages/src/@terra-money/wallet-provider/README.md
+cp README.md packages/src/@xpla/wallet-provider/README.md
+git add packages/src/@xpla/wallet-provider/README.md
 
 yarn run lint-staged
 
