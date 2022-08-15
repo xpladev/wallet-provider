@@ -243,7 +243,7 @@ export interface Wallet {
    *
    * @see Wallet#connectReadonly
    */
-  connectReadonly: (terraAddress: string, network: NetworkInfo) => void;
+  connectReadonly: (xplaAddress: string, network: NetworkInfo) => void;
   /**
    * available install types on the browser
    *
@@ -301,7 +301,7 @@ export interface Wallet {
    * connected wallets
    *
    * this will be like
-   * `[{ connectType: ConnectType.WALLETCONNECT, terraAddress: 'XXXXXXXXX' }]`
+   * `[{ connectType: ConnectType.WALLETCONNECT, xplaAddress: 'XXXXXXXXX' }]`
    *
    * in this time, you can get only one wallet. `wallets[0]`
    *
@@ -382,7 +382,7 @@ export interface Wallet {
    * ```
    *
    * @param { CreateTxOptions } tx transaction data
-   * @param terraAddress - does not work at this time. for the future extension
+   * @param xplaAddress - does not work at this time. for the future extension
    *
    * @return { Promise<TxResult> }
    *
@@ -394,7 +394,7 @@ export interface Wallet {
    *
    * @see WalletController#post
    */
-  post: (tx: CreateTxOptions, terraAddress?: string) => Promise<TxResult>;
+  post: (tx: CreateTxOptions, xplaAddress?: string) => Promise<TxResult>;
   /**
    * sign transaction
    *
@@ -428,7 +428,7 @@ export interface Wallet {
    * ```
    *
    * @param { CreateTxOptions } tx transaction data
-   * @param terraAddress - does not work at this time. for the future extension
+   * @param xplaAddress - does not work at this time. for the future extension
    *
    * @return { Promise<SignResult> }
    *
@@ -440,7 +440,7 @@ export interface Wallet {
    *
    * @see WalletController#sign
    */
-  sign: (tx: CreateTxOptions, terraAddress?: string) => Promise<SignResult>;
+  sign: (tx: CreateTxOptions, xplaAddress?: string) => Promise<SignResult>;
   /**
    * sign any bytes
    *
@@ -471,7 +471,7 @@ export interface Wallet {
    *
    * @param bytes
    */
-  signBytes: (bytes: Buffer, terraAddress?: string) => Promise<SignBytesResult>;
+  signBytes: (bytes: Buffer, xplaAddress?: string) => Promise<SignBytesResult>;
   /**
    * check if tokens are added on the extension
    *
