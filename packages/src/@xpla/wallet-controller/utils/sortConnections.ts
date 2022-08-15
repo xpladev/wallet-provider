@@ -2,7 +2,7 @@ import { Connection } from '@xpla/wallet-types';
 
 export function sortConnections(connections: Connection[]): Connection[] {
   const stationIndex = connections.findIndex(
-    ({ identifier }) => identifier === 'xplawallet',
+    ({ identifier }) => identifier === 'xplavault',
   );
 
   if (stationIndex > -1) {
