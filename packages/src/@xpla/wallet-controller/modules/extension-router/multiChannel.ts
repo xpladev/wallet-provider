@@ -22,7 +22,7 @@ export function getTerraExtensions(): ExtensionInfo[] {
     ? [
         {
           name: 'Xpla Wallet',
-          identifier: 'xplawallet',
+          identifier: 'xplavault',
           icon: 'https://assets.xpla.io/icon/extension/icon.png',
         },
       ]
