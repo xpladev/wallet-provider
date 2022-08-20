@@ -1,4 +1,4 @@
-import { Fee, MsgSend } from '@terra-money/terra.js';
+import { MsgSend } from '@xpla/xpla.js';
 import {
   CreateTxFailed,
   Timeout,
@@ -7,10 +7,11 @@ import {
   TxUnspecifiedError,
   useConnectedWallet,
   UserDenied,
-} from '@terra-money/wallet-provider';
+} from '@xpla/wallet-provider';
 import React, { useCallback, useState } from 'react';
+import { getEstimatedFee } from './utils';
 
-const TEST_TO_ADDRESS = 'terra12hnhh5vtyg5juqnzm43970nh4fw42pt27nw9g9';
+const TEST_TO_ADDRESS = 'xpla1fm828r38yc4szhad3lchdvu8caa4xr64jqe75x';
 
 export function TxSample() {
   const [txResult, setTxResult] = useState<TxResult | null>(null);
@@ -18,12 +19,12 @@ export function TxSample() {
 
   const connectedWallet = useConnectedWallet();
 
-  const proceed = useCallback(() => {
+  const proceed = useCallback(async () => {
     if (!connectedWallet) {
       return;
     }
 
-    if (connectedWallet.network.chainID.startsWith('columbus')) {
+    if (connectedWallet.network.chainID.startsWith('dimension')) {
       alert(`Please only execute this example on Testnet`);
       return;
     }
@@ -31,14 +32,25 @@ export function TxSample() {
     setTxResult(null);
     setTxError(null);
 
+    const msgs = [
+      new MsgSend(connectedWallet.walletAddress, TEST_TO_ADDRESS, {
+        axpla: 1000000000000000000,
+      }),
+    ];
+
+    const config = {
+      chainID: connectedWallet.network.chainID,
+      URL: connectedWallet.network.lcd,
+      address: connectedWallet.walletAddress,
+      createTxOptions:  { msgs },
+    }
+
+    const fee = await getEstimatedFee(config);
+
     connectedWallet
       .post({
-        fee: new Fee(1000000, '200000uusd'),
-        msgs: [
-          new MsgSend(connectedWallet.walletAddress, TEST_TO_ADDRESS, {
-            uusd: 1000000,
-          }),
-        ],
+        fee,
+        msgs,
       })
       .then((nextTxResult: TxResult) => {
         console.log(nextTxResult);
@@ -69,7 +81,7 @@ export function TxSample() {
       <h1>Tx Sample</h1>
 
       {connectedWallet?.availablePost && !txResult && !txError && (
-        <button onClick={proceed}>Send 1USD to {TEST_TO_ADDRESS}</button>
+        <button onClick={proceed}>Send 1XPLA to {TEST_TO_ADDRESS}</button>
       )}
 
       {txResult && (
@@ -79,11 +91,11 @@ export function TxSample() {
           {connectedWallet && txResult && (
             <div>
               <a
-                href={`https://finder.terra.money/${connectedWallet.network.chainID}/tx/${txResult.result.txhash}`}
+                href={`http://explorer.xpla.io/${connectedWallet.network.chainID}/tx/${txResult.result.txhash}`}
                 target="_blank"
                 rel="noreferrer"
               >
-                Open Tx Result in Terra Finder
+                Open Tx Result in XPLA Finder
               </a>
             </div>
           )}

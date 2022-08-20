@@ -1,7 +1,7 @@
 import { NetworkInfo } from '@xpla/wallet-types';
 import {
-  TerraWebExtensionConnector,
-  TerraWebExtensionFeatures,
+  XplaWebExtensionConnector,
+  XplaWebExtensionFeatures,
   WebExtensionPostPayload,
   WebExtensionSignBytesPayload,
   WebExtensionSignPayload,
@@ -15,13 +15,13 @@ import { BehaviorSubject, Observer, Subscribable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { createFixedExtension, FixedExtension } from './createFixedExtension';
 
-const supportFeatures: TerraWebExtensionFeatures[] = [
+const supportFeatures: XplaWebExtensionFeatures[] = [
   'post',
   'sign',
   'sign-bytes',
 ];
 
-export class LegacyExtensionConnector implements TerraWebExtensionConnector {
+export class LegacyExtensionConnector implements XplaWebExtensionConnector {
   private _states: BehaviorSubject<WebExtensionStates>;
   private _extension: FixedExtension;
   private hostWindow: Window | null = null;

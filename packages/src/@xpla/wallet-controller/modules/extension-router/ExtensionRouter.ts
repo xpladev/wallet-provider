@@ -1,6 +1,6 @@
 import { NetworkInfo } from '@xpla/wallet-types';
 import {
-  TerraWebExtensionConnector,
+  XplaWebExtensionConnector,
   WebExtensionNetworkInfo,
   WebExtensionPostPayload,
   WebExtensionSignBytesPayload,
@@ -13,7 +13,7 @@ import { CreateTxOptions } from '@xpla/xpla.js';
 import { BehaviorSubject, Subscribable } from 'rxjs';
 import { LegacyExtensionConnector } from '../legacy-extension';
 import { selectModal } from './modal';
-import { ExtensionInfo, getTerraExtensions } from './multiChannel';
+import { ExtensionInfo, getXplaExtensions } from './multiChannel';
 import { clearSession, getStoredSession, storeSession } from './session';
 import {
   ExtensionRouterConnectorType,
@@ -41,7 +41,7 @@ export class ExtensionRouter {
   private readonly _states: BehaviorSubject<ExtensionRouterStates>;
   private readonly _extensionInfos: ExtensionInfo[];
 
-  private _connector: TerraWebExtensionConnector | null = null;
+  private _connector: XplaWebExtensionConnector | null = null;
 
   constructor(private readonly options: ExtensionRouterOptions) {
     this._states = new BehaviorSubject<ExtensionRouterStates>({
@@ -49,7 +49,7 @@ export class ExtensionRouter {
       network: options.defaultNetwork,
     });
 
-    this._extensionInfos = getTerraExtensions();
+    this._extensionInfos = getXplaExtensions();
 
     if (this._extensionInfos.length === 0) {
       this._states.next({
@@ -108,7 +108,7 @@ export class ExtensionRouter {
   // behaviors
   // ---------------------------------------------
   connect = async (identifier?: string) => {
-    const extensionInfos = getTerraExtensions();
+    const extensionInfos = getXplaExtensions();
 
     if (extensionInfos.length === 0) {
       throw new Error(`[ExtensionRouter] Can't find connectors`);
@@ -286,7 +286,7 @@ export class ExtensionRouter {
   private createConnector = (extensionInfo: ExtensionInfo) => {
     this._connector?.close();
 
-    const connectorPromise: Promise<TerraWebExtensionConnector> =
+    const connectorPromise: Promise<XplaWebExtensionConnector> =
       extensionInfo.connector
         ? Promise.resolve(extensionInfo.connector())
         : Promise.resolve(

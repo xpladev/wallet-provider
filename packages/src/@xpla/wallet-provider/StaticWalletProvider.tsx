@@ -1,4 +1,4 @@
-import { TerraWebExtensionFeatures } from '@xpla/web-extension-interface';
+import { XplaWebExtensionFeatures } from '@xpla/web-extension-interface';
 import {
   Connection,
   ConnectType,
@@ -20,7 +20,7 @@ export interface StaticWalletProviderProps {
   availableConnections?: Connection[];
   availableInstallations?: Installation[];
   wallets?: WalletInfo[];
-  supportFeatures?: Set<TerraWebExtensionFeatures>;
+  supportFeatures?: Set<XplaWebExtensionFeatures>;
   connection?: Connection | undefined;
 }
 

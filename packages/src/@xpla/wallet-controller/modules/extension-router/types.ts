@@ -1,5 +1,5 @@
 import {
-  TerraWebExtensionFeatures,
+  XplaWebExtensionFeatures,
   WebExtensionNetworkInfo,
   WebExtensionWalletInfo,
 } from '@xpla/web-extension-interface';
@@ -39,7 +39,7 @@ export interface ExtensionRouterWalletConnected {
   network: WebExtensionNetworkInfo;
   wallet: WebExtensionWalletInfo;
   connectorType: ExtensionRouterConnectorType;
-  supportFeatures: Set<TerraWebExtensionFeatures>;
+  supportFeatures: Set<XplaWebExtensionFeatures>;
   extensionInfo: ExtensionInfo;
 }
 

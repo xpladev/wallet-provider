@@ -19,7 +19,7 @@ import {
   WalletStatus,
 } from '@xpla/wallet-types';
 import {
-  TerraWebExtensionFeatures,
+  XplaWebExtensionFeatures,
   WebExtensionTxStatus,
 } from '@xpla/web-extension-interface';
 import deepEqual from 'fast-deep-equal';
@@ -47,7 +47,7 @@ import {
 } from './modules/extension-router';
 import {
   ExtensionInfo,
-  getTerraExtensions,
+  getXplaExtensions,
 } from './modules/extension-router/multiChannel';
 import {
   connect as reConnect,
@@ -171,11 +171,11 @@ const CONNECTIONS = {
 
 const DEFAULT_WAITING_CHROME_EXTENSION_INSTALL_CHECK = 1000 * 3;
 
-const WALLETCONNECT_SUPPORT_FEATURES = new Set<TerraWebExtensionFeatures>([
+const WALLETCONNECT_SUPPORT_FEATURES = new Set<XplaWebExtensionFeatures>([
   'post',
 ]);
 
-const EMPTY_SUPPORT_FEATURES = new Set<TerraWebExtensionFeatures>();
+const EMPTY_SUPPORT_FEATURES = new Set<XplaWebExtensionFeatures>();
 
 //noinspection ES6MissingAwait
 export class WalletController {
@@ -333,15 +333,15 @@ export class WalletController {
 
         for (const connectType of connectTypes) {
           if (connectType === ConnectType.EXTENSION) {
-            const terraExtensions = getTerraExtensions();
+            const xplaExtensions = getXplaExtensions();
 
-            for (const terraExtension of terraExtensions) {
+            for (const xplaExtension of xplaExtensions) {
               connections.push(
                 memoConnection(
                   ConnectType.EXTENSION,
-                  terraExtension.name,
-                  terraExtension.icon,
-                  terraExtension.identifier,
+                  xplaExtension.name,
+                  xplaExtension.icon,
+                  xplaExtension.identifier,
                 ),
               );
             }
@@ -743,7 +743,7 @@ export class WalletController {
   // internal
   // connect type changing
   // ================================================================
-  private availableExtensionFeature = (feature: TerraWebExtensionFeatures) => {
+  private availableExtensionFeature = (feature: XplaWebExtensionFeatures) => {
     if (this.disableExtension && this.extension) {
       const states = this.extension.getLastStates();
 

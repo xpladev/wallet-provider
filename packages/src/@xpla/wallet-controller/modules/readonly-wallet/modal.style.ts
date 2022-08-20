@@ -101,7 +101,7 @@ export const modalStyle = `
 .wallet-readonly-modal > .wallet-readonly-modal--content label {
   display: block;
 
-  color: #2043b5;
+  color: #00b1ff;
   font-size: 14px;
   font-weight: 600;
 
@@ -176,7 +176,7 @@ export const modalStyle = `
   font-weight: bold;
   
   color: #ffffff;
-  background-color: #2043b5;
+  background-color: #00b1ff;
 }
 
 .wallet-readonly-modal > .wallet-readonly-modal--content button:disabled {

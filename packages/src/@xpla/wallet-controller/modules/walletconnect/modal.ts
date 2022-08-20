@@ -3,7 +3,7 @@ import { toCanvas } from 'qrcode';
 import { isMobile as isMobileBrowser } from '../../utils/browser-check';
 import { modalStyle } from './modal.style';
 
-export class TerraWalletconnectQrcodeModal implements IQRCodeModal {
+export class XplaWalletconnectQrcodeModal implements IQRCodeModal {
   modalContainer: HTMLDivElement | null = null;
   styleContainer: HTMLStyleElement | null = null;
 
@@ -25,10 +25,12 @@ export class TerraWalletconnectQrcodeModal implements IQRCodeModal {
       `action=wallet_connect&payload=${encodeURIComponent(uri)}`,
     );
 
-    const schemeUri = `https://metamagnet.page.link/?link=https://c2x.world?${query}&apn=money.terra.station&ibi=money.terra.station&isi=1548434735`;
+    const schemeUri = `https://metamagnet.page.link/?link=https://www.xpla.io?${query}&apn=xpla.android&ibi=xpla.io&isi=1548434735`;
+    const mobileUri = `xplavault://wallet_connect?action=wallet_connect&payload=${encodeURIComponent(uri)}`;
 
     const element = createModalElement({
       schemeUri,
+      mobileUri,
       onClose: () => {
         if (this.callback) {
           this.callback();
@@ -39,7 +41,7 @@ export class TerraWalletconnectQrcodeModal implements IQRCodeModal {
     });
 
     if (isMobileBrowser()) {
-      window.location.href = schemeUri;
+      window.location.href = mobileUri;
     }
 
     stylecontainer.textContent = modalStyle;
@@ -67,15 +69,17 @@ export class TerraWalletconnectQrcodeModal implements IQRCodeModal {
 
 function createModalElement({
   schemeUri,
+  mobileUri,
   onClose,
 }: {
   schemeUri: string;
+  mobileUri: string;
   onClose: () => void;
 }): HTMLElement {
   const isMobile = isMobileBrowser();
 
-  const openTerraStationMobile = () => {
-    window.location.href = schemeUri;
+  const openXplaStationMobile = () => {
+    window.location.href = mobileUri;
   };
 
   // ---------------------------------------------
@@ -130,7 +134,7 @@ function createModalElement({
   if (isMobile) {
     // button
     const button = document.createElement('button');
-    button.addEventListener('click', openTerraStationMobile);
+    button.addEventListener('click', openXplaStationMobile);
     button.textContent = 'Open Xpla Mobile';
 
     content.appendChild(button);

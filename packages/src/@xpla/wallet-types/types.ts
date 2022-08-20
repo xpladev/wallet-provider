@@ -98,7 +98,7 @@ export type WalletStates =
       connection: Connection;
       network: NetworkInfo;
       wallets: WalletInfo[];
-      /** This type is same as `import type { TerraWebExtensionFeatures } from '@xpla/web-extension-interface'` */
+      /** This type is same as `import type { XplaWebExtensionFeatures } from '@xpla/web-extension-interface'` */
       supportFeatures: Set<
         'post' | 'sign' | 'sign-bytes' | 'cw20-token' | 'network'
       >;

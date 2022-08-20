@@ -1,13 +1,13 @@
 import { Connection } from '@xpla/wallet-types';
 
 export function sortConnections(connections: Connection[]): Connection[] {
-  const stationIndex = connections.findIndex(
+  const vaultIndex = connections.findIndex(
     ({ identifier }) => identifier === 'xplavault',
   );
 
-  if (stationIndex > -1) {
-    const station = connections.splice(stationIndex, 1);
-    return [...station, ...connections];
+  if (vaultIndex > -1) {
+    const vault = connections.splice(vaultIndex, 1);
+    return [...vault, ...connections];
   }
 
   return connections;

@@ -1,4 +1,4 @@
-import { Fee, MsgSend } from '@xpla/xpla.js';
+import { MsgSend } from '@xpla/xpla.js';
 import {
   CreateTxFailed,
   Timeout,
@@ -9,8 +9,9 @@ import {
   UserDenied,
 } from '@xpla/wallet-provider';
 import React, { useCallback, useState } from 'react';
+import { getEstimatedFee } from './utils';
 
-const TEST_TO_ADDRESS = 'xpla1kgvt9mdtvqx5s4n65sdfutd9092scldepdtgd6';
+const TEST_TO_ADDRESS = 'xpla1fm828r38yc4szhad3lchdvu8caa4xr64jqe75x';
 
 export function TxSample() {
   const [txResult, setTxResult] = useState<TxResult | null>(null);
@@ -18,7 +19,7 @@ export function TxSample() {
 
   const connectedWallet = useConnectedWallet();
 
-  const proceed = useCallback(() => {
+  const proceed = useCallback(async () => {
     if (!connectedWallet) {
       return;
     }
@@ -31,14 +32,25 @@ export function TxSample() {
     setTxResult(null);
     setTxError(null);
 
+    const msgs = [
+      new MsgSend(connectedWallet.walletAddress, TEST_TO_ADDRESS, {
+        axpla: 1000000000000000000,
+      }),
+    ];
+
+    const config = {
+      chainID: connectedWallet.network.chainID,
+      URL: connectedWallet.network.lcd,
+      address: connectedWallet.walletAddress,
+      createTxOptions:  { msgs },
+    }
+
+    const fee = await getEstimatedFee(config);
+
     connectedWallet
       .post({
-        fee: new Fee(1000000, '200000udim'),
-        msgs: [
-          new MsgSend(connectedWallet.walletAddress, TEST_TO_ADDRESS, {
-            udim: 1000000,
-          }),
-        ],
+        fee,
+        msgs,
       })
       .then((nextTxResult: TxResult) => {
         console.log(nextTxResult);
@@ -79,11 +91,11 @@ export function TxSample() {
           {connectedWallet && txResult && (
             <div>
               <a
-                href={`http://scope.c2x.world/${connectedWallet.network.chainID}/tx/${txResult.result.txhash}`}
+                href={`http://explorer.xpla.io/${connectedWallet.network.chainID}/tx/${txResult.result.txhash}`}
                 target="_blank"
                 rel="noreferrer"
               >
-                Open Tx Result in Xpla Finder
+                Open Tx Result in XPLA Finder
               </a>
             </div>
           )}
