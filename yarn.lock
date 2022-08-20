@@ -4040,6 +4040,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"bignumber.js@npm:^9.1.0":
+  version: 9.1.0
+  resolution: "bignumber.js@npm:9.1.0"
+  checksum: 52ec2bb5a3874d7dc1a1018f28f8f7aff4683515ffd09d6c2d93191343c76567ae0ee32cc45149d53afb2b904bc62ed471a307b35764beea7e9db78e56bef6c6
+  languageName: node
+  linkType: hard
+
 "binary-extensions@npm:^2.0.0":
   version: 2.2.0
   resolution: "binary-extensions@npm:2.2.0"
@@ -8863,7 +8870,8 @@ __metadata:
     "@walletconnect/iso-crypto": ^1.6.6
     "@walletconnect/types": ^1.6.6
     "@walletconnect/utils": ^1.6.6
-    "@xpla/xpla.js": ^0.1.8
+    "@xpla/xpla.js": ^0.2.0
+    bignumber.js: ^9.1.0
     bowser: ^2.11.0
     buffer: ^6.0.3
     c8: ^7.11.0
@@ -9822,7 +9830,7 @@ __metadata:
   dependencies:
     "@handbook/markdown-source-import": ^1.1.0
     "@ssen/prettier-config": ^2.0.1
-    "@xpla/xpla.js": ^0.1.0
+    "@xpla/xpla.js": ^0.2.0
     eslint: ^8.6.0
     eslint-config-prettier: ^8.3.0
     eslint-config-react-app: ^7.0.0

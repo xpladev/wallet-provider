@@ -9,15 +9,15 @@ import type {
   WebExtensionTxResult,
 } from './models/tx';
 
-export type TerraWebExtensionFeatures =
+export type XplaWebExtensionFeatures =
   | 'post'
   | 'sign'
   | 'sign-bytes'
   | 'cw20-token'
   | 'network';
 
-export interface TerraWebExtensionConnector {
-  supportFeatures: () => TerraWebExtensionFeatures[];
+export interface XplaWebExtensionConnector {
+  supportFeatures: () => XplaWebExtensionFeatures[];
 
   // ---------------------------------------------
   // open / close

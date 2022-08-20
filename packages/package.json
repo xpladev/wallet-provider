@@ -11,16 +11,15 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "src/{**/*,*}/*.{ts,tsx}": [
-      "cross-env CI=true vitest related"
-    ]
+    "src/{**/*,*}/*.{ts,tsx}": []
   },
   "dependencies": {
     "@walletconnect/core": "^1.6.6",
     "@walletconnect/iso-crypto": "^1.6.6",
     "@walletconnect/types": "^1.6.6",
     "@walletconnect/utils": "^1.6.6",
-    "@xpla/xpla.js": "^0.1.8",
+    "@xpla/xpla.js": "^0.2.0",
+    "bignumber.js": "^9.1.0",
     "bowser": "^2.11.0",
     "buffer": "^6.0.3",
     "fast-deep-equal": "^3.1.3",

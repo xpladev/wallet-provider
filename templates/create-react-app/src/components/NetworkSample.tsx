@@ -1,8 +1,9 @@
-import { useWallet, WalletStatus } from '@terra-money/use-wallet';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useWallet, WalletStatus } from '@xpla/use-wallet';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 export function NetworkSample() {
   const { status, supportFeatures } = useWallet();
+  console.log(status, supportFeatures)
 
   return (
     <div>
@@ -22,6 +23,7 @@ const TEST_NETWORK = {
   name: 'test-network',
   chainID: 'bombay-12',
   lcd: 'https://lcd.terra.dev',
+  walletconnectID: 0
 };
 
 function Component() {

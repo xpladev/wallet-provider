@@ -1,4 +1,4 @@
-import { useWallet, WalletStatus } from '@terra-money/wallet-provider';
+import { useWallet, WalletStatus } from '@xpla/wallet-provider';
 import React from 'react';
 
 export function ConnectSample() {
@@ -9,8 +9,10 @@ export function ConnectSample() {
     availableConnectTypes,
     availableInstallTypes,
     availableConnections,
+    availableInstallations,
     supportFeatures,
     connect,
+    connection,
     install,
     disconnect,
   } = useWallet();
@@ -23,11 +25,13 @@ export function ConnectSample() {
           {JSON.stringify(
             {
               status,
+              connection,
               network,
               wallets,
               supportFeatures: Array.from(supportFeatures),
               availableConnectTypes,
               availableInstallTypes,
+              availableInstallations,
             },
             null,
             2,
@@ -38,6 +42,8 @@ export function ConnectSample() {
       <footer>
         {status === WalletStatus.WALLET_NOT_CONNECTED && (
           <>
+            <button onClick={() => connect()}>Connect</button>
+            <br />
             {availableInstallTypes.map((connectType) => (
               <button
                 key={'install-' + connectType}
@@ -68,6 +74,24 @@ export function ConnectSample() {
                   />
                   {name} [{identifier}]
                 </button>
+              ),
+            )}
+            <br />
+            {availableInstallations.map(
+              ({ type, identifier, name, icon, url }) => (
+                <a
+                  key={'installation-' + type + identifier}
+                  href={url}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <img
+                    src={icon}
+                    alt={name}
+                    style={{ width: '1em', height: '1em' }}
+                  />
+                  Install {name} [{identifier}]
+                </a>
               ),
             )}
           </>

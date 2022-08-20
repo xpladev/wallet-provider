@@ -1,4 +1,4 @@
-import { useConnectedWallet, useLCDClient } from '@terra-money/wallet-provider';
+import { useConnectedWallet, useLCDClient } from '@xpla/wallet-provider';
 import React, { useEffect, useState } from 'react';
 
 export function QuerySample() {
@@ -9,6 +9,8 @@ export function QuerySample() {
 
   useEffect(() => {
     if (connectedWallet) {
+      // FIXME (terra.js 2.x → terra.js 3.x) the return data of LCDClient.bank.balance() is changed
+      //lcd.bank.balance(connectedWallet.walletAddress).then((coins) => {
       lcd.bank.balance(connectedWallet.walletAddress).then(([coins]) => {
         setBank(coins.toString());
       });

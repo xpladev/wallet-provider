@@ -16,7 +16,7 @@ import {
   WalletConnectUserDenied,
 } from './errors';
 import SocketTransport from './impl/socket-transport';
-import { TerraWalletconnectQrcodeModal } from './modal';
+import { XplaWalletconnectQrcodeModal } from './modal';
 import {
   WalletConnectSession,
   WalletConnectSessionStatus,
@@ -30,8 +30,8 @@ export interface WalletConnectControllerOptions {
    * @default
    * ```js
    * {
-   *   bridge: 'https://walletconnect.xpla.dev/',
-   *   qrcodeModal: new TerraWalletconnectQrcodeModal(),
+   *   bridge: 'https://walletconnect.xpla.io/',
+   *   qrcodeModal: new XplaWalletconnectQrcodeModal(),
    * }
    * ```
    */
@@ -78,10 +78,10 @@ export function connect(
     });
 
   const qrcodeModal =
-    options.connectorOpts?.qrcodeModal ?? new TerraWalletconnectQrcodeModal();
+    options.connectorOpts?.qrcodeModal ?? new XplaWalletconnectQrcodeModal();
 
   const connectorOpts: IWalletConnectOptions = {
-    bridge: 'https://walletconnect.xpla.dev/',
+    bridge: 'https://walletconnect.xpla.io/',
     qrcodeModal,
     ...options.connectorOpts,
   };
@@ -183,7 +183,7 @@ export function connect(
     if (!draftConnector.connected) {
       draftConnector.createSession().catch(console.error);
 
-      if (qrcodeModal instanceof TerraWalletconnectQrcodeModal) {
+      if (qrcodeModal instanceof XplaWalletconnectQrcodeModal) {
         qrcodeModal.setCloseCallback(() => {
           sessionSubject.next({
             status: WalletConnectSessionStatus.DISCONNECTED,
@@ -262,7 +262,7 @@ export function connect(
       );
 
       // FIXME changed walletconnect confirm schema
-      window.location.href = `c2xstation://walletconnect_confirm/?payload=${payload}`;
+      window.location.href = `xplavault://walletconnect_confirm/?payload=${payload}`;
       //window.location.href = `terrastation://wallet_connect_confirm?id=${id}&handshakeTopic=${
       //  connector.handshakeTopic
       //}&params=${JSON.stringify([serializedTxOptions])}`;

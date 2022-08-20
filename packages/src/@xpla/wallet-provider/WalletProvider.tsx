@@ -1,4 +1,4 @@
-import { TerraWebExtensionFeatures } from '@xpla/web-extension-interface';
+import { XplaWebExtensionFeatures } from '@xpla/web-extension-interface';
 import {
   Connection,
   ConnectType,
@@ -20,7 +20,7 @@ export interface WalletProviderProps extends WalletControllerOptions {
 }
 
 const EMPTY_ARRAY: WalletInfo[] = [];
-const EMPTY_SUPPORT_FEATURES = new Set<TerraWebExtensionFeatures>();
+const EMPTY_SUPPORT_FEATURES = new Set<XplaWebExtensionFeatures>();
 
 export function WalletProvider({
   children,

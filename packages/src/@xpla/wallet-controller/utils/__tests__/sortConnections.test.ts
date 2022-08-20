@@ -3,7 +3,7 @@ import { sortConnections } from '../sortConnections';
 import { describe, expect, test } from 'vitest';
 
 describe('sortConnections', () => {
-  test('terra station should be at the top', () => {
+  test('xpla vault should be at the top', () => {
     // Arrange, Act
     const result = sortConnections([
       {
@@ -14,7 +14,7 @@ describe('sortConnections', () => {
       },
       {
         type: ConnectType.EXTENSION,
-        identifier: 'station',
+        identifier: 'xplavault',
         name: 'Xpla Wallet',
         icon: '',
       },
@@ -28,7 +28,7 @@ describe('sortConnections', () => {
 
     // Assert
     expect(result.map(({ identifier }) => identifier)).toEqual([
-      'station',
+      'xplavault',
       'xxxx',
       'yyyy',
     ]);
