@@ -24,7 +24,7 @@ const FALLBACK: Extensions = {
       urls: [
         {
           browser: 'chrome',
-          url: 'https://chrome.google.com/webstore/detail/c2x-station-wallet/ofeeamlegilfbjlgbephmdhchpblfigo',
+          url: 'https://chrome.google.com/webstore/detail/xpla-vault-wallet/ocjobpilfplciaddcbafabcegbilnbnb',
         }
       ],
     },
