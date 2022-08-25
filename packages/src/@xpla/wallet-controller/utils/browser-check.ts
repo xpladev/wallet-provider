@@ -39,6 +39,8 @@ export const getDesktopBrowserType = (
 
   if (browser.satisfies({ chrome: '>60', chromium: '>60' })) {
     return 'chrome';
+  } else if (browser.satisfies({ firefox: '>=60' })) {
+    return 'firefox';
   } else if (browser.satisfies({ edge: '>80' })) {
     return 'edge';
   } else {
