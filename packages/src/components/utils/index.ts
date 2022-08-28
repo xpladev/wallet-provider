@@ -23,6 +23,7 @@ export const getEstimatedFee = async ({
   const config = {
     chainID,
     URL,
+    gasAdjustment: 2,
     gasPrices,
   };
 
