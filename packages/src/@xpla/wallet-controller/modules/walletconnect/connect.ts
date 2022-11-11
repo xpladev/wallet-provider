@@ -48,7 +48,7 @@ export interface WalletConnectControllerOptions {
 export interface WalletConnectController {
   session: () => Observable<WalletConnectSession>;
   getLatestSession: () => WalletConnectSession;
-  post: (tx: CreateTxOptions) => Promise<WalletConnectTxResult>;
+  post: (tx: CreateTxOptions, c2x?: boolean) => Promise<WalletConnectTxResult>;
   disconnect: () => void;
 }
 
@@ -69,6 +69,7 @@ export function connectIfSessionExists(
 export function connect(
   options: WalletConnectControllerOptions = {},
   useCachedSession: boolean = false,
+  isC2X?: boolean
 ): WalletConnectController {
   let connector: Connector | null = null;
 
@@ -78,7 +79,7 @@ export function connect(
     });
 
   const qrcodeModal =
-    options.connectorOpts?.qrcodeModal ?? new XplaWalletconnectQrcodeModal();
+    options.connectorOpts?.qrcodeModal ?? new XplaWalletconnectQrcodeModal(isC2X);
 
   const connectorOpts: IWalletConnectOptions = {
     bridge: 'https://walletconnect.xpla.io/',
@@ -232,7 +233,7 @@ export function connect(
    * @throws { WalletConnectTimeout }
    * @throws { WalletConnectTxUnspecifiedError }
    */
-  function post(tx: CreateTxOptions): Promise<WalletConnectTxResult> {
+  function post(tx: CreateTxOptions, c2x?: boolean): Promise<WalletConnectTxResult> {
     if (!connector || !connector.connected) {
       throw new Error(`WalletConnect is not connected!`);
     }
@@ -262,7 +263,12 @@ export function connect(
       );
 
       // FIXME changed walletconnect confirm schema
-      window.location.href = `xplavault://walletconnect_confirm/?payload=${payload}`;
+      if (c2x) {
+        window.location.href = `c2xvault://walletconnect_confirm/?payload=${payload}`;
+      } else {
+        window.location.href = `xplavault://walletconnect_confirm/?payload=${payload}`;
+      }
+      
       //window.location.href = `terrastation://wallet_connect_confirm?id=${id}&handshakeTopic=${
       //  connector.handshakeTopic
       //}&params=${JSON.stringify([serializedTxOptions])}`;

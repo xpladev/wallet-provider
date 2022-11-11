@@ -1,4 +1,4 @@
-import { useWallet, WalletStatus } from '@xpla/wallet-provider';
+import { useWallet, WalletStatus, ConnectType } from '@xpla/wallet-provider';
 import React from 'react';
 
 export function ConnectSample() {
@@ -62,19 +62,25 @@ export function ConnectSample() {
             ))}
             <br />
             {availableConnections.map(
-              ({ type, name, icon, identifier = '' }) => (
-                <button
-                  key={'connection-' + type + identifier}
-                  onClick={() => connect(type, identifier)}
-                >
-                  <img
-                    src={icon}
-                    alt={name}
-                    style={{ width: '1em', height: '1em' }}
-                  />
-                  {name} [{identifier}]
-                </button>
-              ),
+              ({ type, name, icon, identifier = '' }) => {
+                let isC2X: boolean | undefined = undefined
+                if (type === ConnectType.WALLETCONNECT) {
+                  isC2X = true
+                }
+                return (
+                  <button
+                    key={'connection-' + type + identifier}
+                    onClick={() => connect(type, identifier, isC2X)}
+                  >
+                    <img
+                      src={icon}
+                      alt={name}
+                      style={{ width: '1em', height: '1em' }}
+                    />
+                    {name} [{identifier}]
+                  </button>
+                )
+              },
             )}
             <br />
             {availableInstallations.map(

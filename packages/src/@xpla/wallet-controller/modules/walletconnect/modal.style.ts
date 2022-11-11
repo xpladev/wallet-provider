@@ -96,7 +96,7 @@ export const modalStyle = `
   font-weight: bold;
   
   color: #ffffff;
-  background-color: #2043b5;
+  background-color: #00b1ff;
 }
 
 .wallet-wc-modal > .wallet-wc-modal--content[data-device="desktop"] {

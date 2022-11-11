@@ -4,7 +4,7 @@
   "scripts": {
     "build": "TS_NODE_PROJECT=tsconfig.script.json node -r ts-node/register -r tsconfig-paths/register scripts/build.ts",
     "publish": "rocket-punch publish",
-    "start": "vite --open --port=9221",
+    "start": "vite --open --port=9221 --host",
     "start:multiple-wallets": "TS_NODE_PROJECT=tsconfig.script.json node -r ts-node/register -r tsconfig-paths/register scripts/start.multiple-wallets.ts",
     "test": "vitest",
     "coverage": "vitest --coverage",

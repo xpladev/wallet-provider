@@ -1,8 +1,8 @@
 {
   "private": true,
-  "author": "Xpla",
+  "author": "XPLA",
   "license": "Apache-2.0",
-  "repository": "https://github.com/c2xdev/wallet-provider.git",
+  "repository": "https://github.com/xpladev/wallet-provider.git",
   "workspaces": [
     "packages"
   ],

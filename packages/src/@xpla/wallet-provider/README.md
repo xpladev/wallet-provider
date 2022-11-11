@@ -1,6 +1,6 @@
-# Xpla Wallet Provider
+# XPLA Wallet Provider
 
-Library to make React dApps easier using Xpla Extension or Xpla Mobile.
+Library to make React dApps easier using XPLA Extension or XPLA Mobile.
 
 ## Installation
 
@@ -14,7 +14,7 @@ npm i --save @xpla/wallet-provider
 
 First, please add `<meta name="xpla-wallet" />` on your html page.
 
-Since then, browser extensions (e.g. Xpla chrome extension) will not attempt to connect in a Web app where this `<meta name="xpla-wallet">` tag is not found.
+Since then, browser extensions (e.g. XPLA chrome extension) will not attempt to connect in a Web app where this `<meta name="xpla-wallet">` tag is not found.
 
 ```html
 <html lang="en">
@@ -237,7 +237,7 @@ export interface Wallet {
    * @see Wallet#availableConnectTypes
    * @see WalletController#connect
    */
-  connect: (type?: ConnectType, identifier?: string) => void;
+  connect: (type?: ConnectType, identifier?: string, isC2X?: boolean) => void;
   /**
    * manual connect to read only session
    *
@@ -394,7 +394,11 @@ export interface Wallet {
    *
    * @see WalletController#post
    */
-  post: (tx: CreateTxOptions, xplaAddress?: string) => Promise<TxResult>;
+  post: (
+    tx: CreateTxOptions,
+    xplaAddress?: string,
+    c2x?: boolean,
+  ) => Promise<TxResult>;
   /**
    * sign transaction
    *

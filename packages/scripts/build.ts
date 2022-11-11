@@ -40,10 +40,10 @@ build({
       dependencies['rxjs'] = '^7.0.0';
     }
     
-    if ('@terra-money/terra.js' in dependencies) {
-      delete dependencies['@terra-money/terra.js'];
-      peerDependencies['@terra-money/terra.js'] = '^3.0.0';
-    }
+    // if ('@terra-money/terra.js' in dependencies) {
+    //   delete dependencies['@terra-money/terra.js'];
+    //   peerDependencies['@terra-money/terra.js'] = '^3.0.0';
+    // }
 
     //switch (packageName) {
     //  case '@terra-dev/is-mobile':

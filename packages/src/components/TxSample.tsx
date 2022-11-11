@@ -7,7 +7,8 @@ import {
   TxUnspecifiedError,
   useConnectedWallet,
   UserDenied,
-} from '@xpla/wallet-provider';
+  useWallet,
+} from '../@xpla/wallet-provider';
 import React, { useCallback, useState } from 'react';
 import { getEstimatedFee } from './utils';
 
@@ -17,6 +18,7 @@ export function TxSample() {
   const [txResult, setTxResult] = useState<TxResult | null>(null);
   const [txError, setTxError] = useState<string | null>(null);
 
+  const { post } = useWallet();
   const connectedWallet = useConnectedWallet();
 
   const proceed = useCallback(async () => {
@@ -47,34 +49,33 @@ export function TxSample() {
 
     const fee = await getEstimatedFee(config);
 
-    connectedWallet
-      .post({
-        fee,
-        msgs,
-      })
-      .then((nextTxResult: TxResult) => {
-        console.log(nextTxResult);
-        setTxResult(nextTxResult);
-      })
-      .catch((error: unknown) => {
-        if (error instanceof UserDenied) {
-          setTxError('User Denied');
-        } else if (error instanceof CreateTxFailed) {
-          setTxError('Create Tx Failed: ' + error.message);
-        } else if (error instanceof TxFailed) {
-          setTxError('Tx Failed: ' + error.message);
-        } else if (error instanceof Timeout) {
-          setTxError('Timeout');
-        } else if (error instanceof TxUnspecifiedError) {
-          setTxError('Unspecified Error: ' + error.message);
-        } else {
-          setTxError(
-            'Unknown Error: ' +
-              (error instanceof Error ? error.message : String(error)),
-          );
-        }
-      });
-  }, [connectedWallet]);
+    post({
+      fee,
+      msgs,
+    }, undefined, true)
+    .then((nextTxResult: TxResult) => {
+      console.log(nextTxResult);
+      setTxResult(nextTxResult);
+    })
+    .catch((error: unknown) => {
+      if (error instanceof UserDenied) {
+        setTxError('User Denied');
+      } else if (error instanceof CreateTxFailed) {
+        setTxError('Create Tx Failed: ' + error.message);
+      } else if (error instanceof TxFailed) {
+        setTxError('Tx Failed: ' + error.message);
+      } else if (error instanceof Timeout) {
+        setTxError('Timeout');
+      } else if (error instanceof TxUnspecifiedError) {
+        setTxError('Unspecified Error: ' + error.message);
+      } else {
+        setTxError(
+          'Unknown Error: ' +
+            (error instanceof Error ? error.message : String(error)),
+        );
+      }
+    });
+  }, [connectedWallet, post]);
 
   return (
     <div>
@@ -91,7 +92,7 @@ export function TxSample() {
           {connectedWallet && txResult && (
             <div>
               <a
-                href={`http://explorer.xpla.io/${connectedWallet.network.chainID}/tx/${txResult.result.txhash}`}
+                href={`http://explorer.xpla.io/${connectedWallet.network.name}/tx/${txResult.result.txhash}`}
                 target="_blank"
                 rel="noreferrer"
               >

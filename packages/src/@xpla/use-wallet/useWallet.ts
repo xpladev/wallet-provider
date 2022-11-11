@@ -90,7 +90,7 @@ export interface Wallet {
    * @see Wallet#availableConnectTypes
    * @see WalletController#connect
    */
-  connect: (type?: ConnectType, identifier?: string) => void;
+  connect: (type?: ConnectType, identifier?: string, isC2X?: boolean) => void;
 
   /**
    * manual connect to read only session
@@ -257,7 +257,7 @@ export interface Wallet {
    *
    * @see WalletController#post
    */
-  post: (tx: CreateTxOptions, xplaAddress?: string) => Promise<TxResult>;
+  post: (tx: CreateTxOptions, xplaAddress?: string, c2x?: boolean) => Promise<TxResult>;
 
   /**
    * sign transaction

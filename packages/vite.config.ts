@@ -24,6 +24,7 @@ export default defineConfig({
     //   maxSessionMemory: 100,
     //   peerMaxConcurrentStreams: 300,
     // },
+    https: true
   },
   plugins: [reactRefresh(), tsconfigPaths(), svgr()],
   //build: {

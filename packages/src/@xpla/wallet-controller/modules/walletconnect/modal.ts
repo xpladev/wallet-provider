@@ -3,7 +3,63 @@ import { toCanvas } from 'qrcode';
 import { isMobile as isMobileBrowser } from '../../utils/browser-check';
 import { modalStyle } from './modal.style';
 
+const XPLA_ANDROID_URL = 'https://play.google.com/store/apps/details?id=xpla.android';
+const XPLA_iOS_URL = 'https://apps.apple.com/app/xpla-vault/id1640593143';
+
+const C2X_ANDROID_URL = 'https://play.google.com/store/apps/details?id=c2xvault.android';
+const C2X_iOS_URL = 'https://apps.apple.com/us/app/c2x-vault/id1642858297';
+
+const openXplaStationMobile = (mobileUri: string, isC2X?: boolean) => {
+  const timeout = setTimeout(() => {
+    const userAgent = navigator.userAgent.toLowerCase();
+    if (userAgent.search('android') > -1) {
+      if (isC2X) {
+        window.open(C2X_ANDROID_URL);
+      } else {
+        window.open(XPLA_ANDROID_URL);
+      }
+    } else if (
+      userAgent.search('iphone') > -1 ||
+      userAgent.search('ipod') > -1 ||
+      userAgent.search('ipad') > -1 ||
+      userAgent.search('mac') > -1) {
+      if (isC2X) {
+        window.location.href = C2X_iOS_URL;
+      } else {
+        window.location.href = XPLA_iOS_URL;
+      }
+    } else {
+      alert('Not supported');
+    }
+  }, 1500);
+
+  const clearTimers = () => {
+    clearInterval(heartbeat);
+    clearTimeout(timeout);
+  };
+
+  const intervalHeartbeat = () => {
+    if (window.document.hidden) {
+      clearTimers();
+    }
+  };
+
+  const heartbeat = setInterval(intervalHeartbeat, 200);
+
+  try {
+    window.location.href = mobileUri;
+  } catch {
+
+  }
+};
+
 export class XplaWalletconnectQrcodeModal implements IQRCodeModal {
+  isC2X?: boolean
+
+  constructor(isC2X?: boolean) {
+    this.isC2X = isC2X
+  }
+
   modalContainer: HTMLDivElement | null = null;
   styleContainer: HTMLStyleElement | null = null;
 
@@ -25,8 +81,14 @@ export class XplaWalletconnectQrcodeModal implements IQRCodeModal {
       `action=wallet_connect&payload=${encodeURIComponent(uri)}`,
     );
 
-    const schemeUri = `https://metamagnet.page.link/?link=https://www.xpla.io?${query}&apn=xpla.android&ibi=xpla.io&isi=1548434735`;
-    const mobileUri = `xplavault://wallet_connect?action=wallet_connect&payload=${encodeURIComponent(uri)}`;
+    const schemeUri = `https://metamagnet.page.link/?link=https://www.xpla.io?${query}&apn=xpla.android&isi=1640593143&ibi=xpla.io`;
+    let mobileUri = '';
+
+    if (this.isC2X) {
+      mobileUri = `c2xvault://wallet_connect?action=wallet_connect&payload=${encodeURIComponent(uri)}`;
+    } else {
+      mobileUri = `xplavault://wallet_connect?action=wallet_connect&payload=${encodeURIComponent(uri)}`;
+    }
 
     const element = createModalElement({
       schemeUri,
@@ -38,10 +100,11 @@ export class XplaWalletconnectQrcodeModal implements IQRCodeModal {
         }
         this.close();
       },
+      isC2X: this.isC2X,
     });
 
     if (isMobileBrowser()) {
-      window.location.href = mobileUri;
+      openXplaStationMobile(mobileUri, this.isC2X)
     }
 
     stylecontainer.textContent = modalStyle;
@@ -71,16 +134,14 @@ function createModalElement({
   schemeUri,
   mobileUri,
   onClose,
+  isC2X,
 }: {
   schemeUri: string;
   mobileUri: string;
   onClose: () => void;
+  isC2X: boolean | undefined;
 }): HTMLElement {
   const isMobile = isMobileBrowser();
-
-  const openXplaStationMobile = () => {
-    window.location.href = mobileUri;
-  };
 
   // ---------------------------------------------
   // container
@@ -134,8 +195,14 @@ function createModalElement({
   if (isMobile) {
     // button
     const button = document.createElement('button');
-    button.addEventListener('click', openXplaStationMobile);
-    button.textContent = 'Open Xpla Mobile';
+    button.addEventListener('click', () => {
+      openXplaStationMobile(mobileUri, isC2X)
+    });
+    if (isC2X) {
+      button.textContent = 'Open C2X Vault';
+    } else {
+      button.textContent = 'Open XPLA Vault';
+    }
 
     content.appendChild(button);
   } else {

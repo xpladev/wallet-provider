@@ -458,7 +458,7 @@ export class WalletController {
    *
    * @see Wallet#connect
    */
-  connect = async (_type?: ConnectType, _identifier?: string) => {
+  connect = async (_type?: ConnectType, _identifier?: string, _isC2X?: boolean) => {
     let type: ConnectType;
     let identifier: string | undefined;
 
@@ -495,7 +495,7 @@ export class WalletController {
         }
         break;
       case ConnectType.WALLETCONNECT:
-        this.enableWalletConnect(wcConnect(this.options));
+        this.enableWalletConnect(wcConnect(this.options, false, _isC2X));
         break;
       case ConnectType.EXTENSION:
         if (!this.extension) {
@@ -546,6 +546,7 @@ export class WalletController {
   post = async (
     tx: CreateTxOptions,
     xplaAddress?: string,
+    c2x?: boolean,
   ): Promise<TxResult> => {
     // ---------------------------------------------
     // extension
@@ -580,7 +581,7 @@ export class WalletController {
     // ---------------------------------------------
     else if (this.walletConnect) {
       return this.walletConnect
-        .post(tx)
+        .post(tx, c2x)
         .then(
           (result) =>
             ({
