@@ -33,6 +33,6 @@
   },
   "packageManager": "yarn@3.2.2",
   "dependencies": {
-    "@xpla/xpla.js": "^0.2.0"
+    "@xpla/xpla.js": "^0.3.1"
   }
 }
