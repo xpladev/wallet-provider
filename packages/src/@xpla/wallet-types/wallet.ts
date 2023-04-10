@@ -19,7 +19,7 @@ export interface ConnectedWallet {
   /** xplaAddress is same as walletAddress */
   xplaAddress: HumanAddr;
   design?: string;
-  post: (tx: CreateTxOptions) => Promise<TxResult>;
+  post: (tx: CreateTxOptions, c2x?: boolean) => Promise<TxResult>;
   sign: (tx: CreateTxOptions) => Promise<SignResult>;
   signBytes: (bytes: Buffer) => Promise<SignBytesResult>;
   availablePost: boolean;
@@ -34,7 +34,7 @@ interface CreateConnectedWalletParams {
   network: NetworkInfo;
   wallets: WalletInfo[];
   connection: Connection | undefined;
-  post: (tx: CreateTxOptions, xplaAddress?: string) => Promise<TxResult>;
+  post: (tx: CreateTxOptions, xplaAddress?: string, c2x?: boolean) => Promise<TxResult>;
   sign: (tx: CreateTxOptions, xplaAddress?: string) => Promise<SignResult>;
   signBytes: (bytes: Buffer, xplaAddress?: string) => Promise<SignBytesResult>;
   supportFeatures: Set<
@@ -66,8 +66,8 @@ export function createConnectedWallet({
         xplaAddress: xplaAddress as HumanAddr,
         walletAddress: xplaAddress as HumanAddr,
         design,
-        post: (tx: CreateTxOptions) => {
-          return post(tx, xplaAddress);
+        post: (tx: CreateTxOptions, c2x?: boolean) => {
+          return post(tx, xplaAddress, c2x);
         },
         sign: (tx: CreateTxOptions) => {
           return sign(tx, xplaAddress);

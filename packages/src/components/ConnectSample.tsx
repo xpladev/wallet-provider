@@ -65,7 +65,7 @@ export function ConnectSample() {
               ({ type, name, icon, identifier = '' }) => {
                 let isC2X: boolean | undefined = undefined
                 if (type === ConnectType.WALLETCONNECT) {
-                  isC2X = true
+                  isC2X = false
                 }
                 return (
                   <button
