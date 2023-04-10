@@ -70,6 +70,23 @@ export const modalStyle = `
   font-weight: bold;
   
   margin: 0 0 12px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wallet-wc-modal > .wallet-wc-modal--content h1 img {
+    margin-bottom: 4px;
+}
+
+.wallet-wc-modal > .wallet-wc-modal--content h1 span {
+    display: flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.wallet-wc-modal > .wallet-wc-modal--content canvas {
+    margin: 0 auto;
 }
 
 .wallet-wc-modal > .wallet-wc-modal--content p {

@@ -7,7 +7,6 @@ import {
   TxUnspecifiedError,
   useConnectedWallet,
   UserDenied,
-  useWallet,
 } from '../@xpla/wallet-provider';
 import React, { useCallback, useState } from 'react';
 import { getEstimatedFee } from './utils';
@@ -18,7 +17,6 @@ export function TxSample() {
   const [txResult, setTxResult] = useState<TxResult | null>(null);
   const [txError, setTxError] = useState<string | null>(null);
 
-  const { post } = useWallet();
   const connectedWallet = useConnectedWallet();
 
   const proceed = useCallback(async () => {
@@ -49,10 +47,10 @@ export function TxSample() {
 
     const fee = await getEstimatedFee(config);
 
-    post({
+    connectedWallet.post({
       fee,
       msgs,
-    }, undefined, true)
+    }, true)
     .then((nextTxResult: TxResult) => {
       console.log(nextTxResult);
       setTxResult(nextTxResult);
@@ -75,7 +73,7 @@ export function TxSample() {
         );
       }
     });
-  }, [connectedWallet, post]);
+  }, [connectedWallet]);
 
   return (
     <div>
