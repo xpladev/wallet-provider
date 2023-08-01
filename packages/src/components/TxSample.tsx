@@ -7,11 +7,12 @@ import {
   TxUnspecifiedError,
   useConnectedWallet,
   UserDenied,
+  WalletApp,
 } from '../@xpla/wallet-provider';
 import React, { useCallback, useState } from 'react';
 import { getEstimatedFee } from './utils';
 
-const TEST_TO_ADDRESS = 'xpla1fm828r38yc4szhad3lchdvu8caa4xr64jqe75x';
+const TEST_TO_ADDRESS = 'xpla1zupa355d0h8fy0gxqxhvetzgx8thf070q5sp64';
 
 export function TxSample() {
   const [txResult, setTxResult] = useState<TxResult | null>(null);
@@ -47,10 +48,15 @@ export function TxSample() {
 
     const fee = await getEstimatedFee(config);
 
+    // undefined or false XPLA Vault
+    // true XPLA GAMES
+    // WalletApp.XPLA_VAULT
+    // WalletApp.XPLA_GAMES
+    // WalletApp.XPLAYZ
     connectedWallet.post({
       fee,
       msgs,
-    }, true)
+    }, WalletApp.XPLA_VAULT)
     .then((nextTxResult: TxResult) => {
       console.log(nextTxResult);
       setTxResult(nextTxResult);
