@@ -6,6 +6,7 @@ import {
   SignBytesResult,
   SignResult,
   TxResult,
+  WalletApp,
   WalletInfo,
   WalletStatus,
 } from '@xpla/wallet-types';
@@ -90,7 +91,7 @@ export interface Wallet {
    * @see Wallet#availableConnectTypes
    * @see WalletController#connect
    */
-  connect: (type?: ConnectType, identifier?: string, isC2X?: boolean) => void;
+  connect: (type?: ConnectType, identifier?: string, walletApp?: WalletApp | boolean) => void;
 
   /**
    * manual connect to read only session
@@ -257,7 +258,7 @@ export interface Wallet {
    *
    * @see WalletController#post
    */
-  post: (tx: CreateTxOptions, xplaAddress?: string, c2x?: boolean) => Promise<TxResult>;
+  post: (tx: CreateTxOptions, xplaAddress?: string, walletApp?: WalletApp | boolean) => Promise<TxResult>;
 
   /**
    * sign transaction

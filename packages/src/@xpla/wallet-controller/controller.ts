@@ -14,6 +14,7 @@ import {
   SignBytesResult,
   SignResult,
   TxResult,
+  WalletApp,
   WalletLCDClientConfig,
   WalletStates,
   WalletStatus,
@@ -458,7 +459,7 @@ export class WalletController {
    *
    * @see Wallet#connect
    */
-  connect = async (_type?: ConnectType, _identifier?: string, _isC2X?: boolean) => {
+  connect = async (_type?: ConnectType, _identifier?: string, _walletApp?: WalletApp | boolean) => {
     let type: ConnectType;
     let identifier: string | undefined;
 
@@ -495,15 +496,19 @@ export class WalletController {
         }
         break;
       case ConnectType.WALLETCONNECT:
-        this.enableWalletConnect(wcConnect(this.options, false, _isC2X));
+        this.enableWalletConnect(wcConnect(this.options, false, _walletApp));
         break;
       case ConnectType.EXTENSION:
+        console.log('extension start');
+
         if (!this.extension) {
           throw new Error(`extension instance is not created!`);
         }
 
-        this.extension.connect(identifier);
+        await this.extension.connect(identifier);
         this.enableExtension();
+
+        console.log('extension end');
         break;
       default:
         throw new Error(`Unknown ConnectType!`);
@@ -546,7 +551,7 @@ export class WalletController {
   post = async (
     tx: CreateTxOptions,
     xplaAddress?: string,
-    c2x?: boolean,
+    walletApp?: WalletApp | boolean,
   ): Promise<TxResult> => {
     // ---------------------------------------------
     // extension
@@ -581,7 +586,7 @@ export class WalletController {
     // ---------------------------------------------
     else if (this.walletConnect) {
       return this.walletConnect
-        .post(tx, c2x)
+        .post(tx, walletApp)
         .then(
           (result) =>
             ({
@@ -767,6 +772,8 @@ export class WalletController {
         network: next.network,
       };
     }
+
+    console.log(next);
 
     if (prev.status !== next.status || !deepEqual(prev, next)) {
       this._states.next(next);

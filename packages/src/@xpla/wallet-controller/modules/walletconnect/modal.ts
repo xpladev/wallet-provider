@@ -1,30 +1,59 @@
+import { WalletApp } from '@xpla/wallet-types';
 import { IQRCodeModal, IQRCodeModalOptions } from '@walletconnect/types';
 import { toCanvas } from 'qrcode';
 import { isMobile as isMobileBrowser } from '../../utils/browser-check';
 import { modalStyle } from './modal.style';
 
-const XPLA_ANDROID_URL = 'https://play.google.com/store/apps/details?id=xpla.android';
-const XPLA_iOS_URL = 'https://apps.apple.com/app/xpla-vault/id1640593143';
+const XPLA_VAULT_ANDROID_URL = 'https://play.google.com/store/apps/details?id=xpla.android';
+const XPLA_VALUT_iOS_URL = 'https://apps.apple.com/app/xpla-vault/id1640593143';
+const XPLAYZ_ANDROID_URL = 'https://play.google.com/store/apps/details?id=com.zenaad.xplayz';
+const XPLAYZ_iOS_URL = 'https://apps.apple.com/kr/app/xplayz/id1667742112';
 
-// const C2X_ANDROID_URL = 'https://play.google.com/store/apps/details?id=c2xvault.android';
-// const C2X_iOS_URL = 'https://apps.apple.com/us/app/c2x-vault/id1642858297';
+const WalletAppName = {
+  [WalletApp.XPLA_VAULT]: 'XPLA Vault',
+  [WalletApp.XPLA_GAMES]: 'XPLA GAMES',
+  [WalletApp.XPLAYZ]: 'xPlayz',
+}
 
-const openXplaMobile = (mobileUri: string) => {
-  const timeout = setTimeout(() => {
-    const userAgent = navigator.userAgent.toLowerCase();
-    if (userAgent.search('android') > -1) {
-      // window.open(XPLA_ANDROID_URL);
-      window.location.href = XPLA_ANDROID_URL
-    } else if (
-      userAgent.search('iphone') > -1 ||
-      userAgent.search('ipod') > -1 ||
-      userAgent.search('ipad') > -1 ||
-      userAgent.search('mac') > -1) {
-        window.location.href = XPLA_iOS_URL;
-    } else {
-      alert('Not supported');
+const WalletAppShemeUri = {
+  [WalletApp.XPLA_VAULT]: 'https://xplavault.page.link/?link=https://www.xpla.io?{query}&apn=xpla.android&isi=1640593143&ibi=xpla.ios',
+  [WalletApp.XPLA_GAMES]: 'https://c2xvault.page.link/?link=https://www.c2x.world?{query}&apn=c2xvault.android&isi=1642858297&ibi=c2xvault.ios',
+  [WalletApp.XPLAYZ]: 'https://xplayz.page.link/?link=https://www.zenaad.com?{query}&apn=com.zenaad.xplayz&isi=1524577064&ibi=com.zenaad.xplayz',
+}
+
+const WalletAppMobileUri = {
+  [WalletApp.XPLA_VAULT]: 'xplavault://wallet_connect?action=wallet_connect&payload={query}',
+  [WalletApp.XPLA_GAMES]: 'https://c2xvault.page.link/?link=https://www.c2x.world?{query}&apn=c2xvault.android&isi=1642858297&ibi=c2xvault.ios',
+  [WalletApp.XPLAYZ]: 'xplayz://wallet_connect?action=wallet_connect&payload={query}',
+}
+
+const downloadUrl = (walletApp: WalletApp) => {
+  const userAgent = navigator.userAgent.toLowerCase();
+  if (userAgent.search('android') > -1) {
+    if (walletApp === WalletApp.XPLA_VAULT) {
+      return XPLA_VAULT_ANDROID_URL;
+    } else if (walletApp === WalletApp.XPLAYZ) {
+      return XPLAYZ_ANDROID_URL;
     }
-  }, 3000);
+  } else if (
+    userAgent.search('iphone') > -1 ||
+    userAgent.search('ipod') > -1 ||
+    userAgent.search('ipad') > -1 ||
+    userAgent.search('mac') > -1) {
+    if (walletApp === WalletApp.XPLA_VAULT) {
+      return XPLA_VALUT_iOS_URL;
+    } else if (walletApp === WalletApp.XPLAYZ) {
+      return XPLAYZ_iOS_URL;
+    }
+  }
+
+  return '';
+}
+
+const openXplaMobile = (mobileUri: string, download: string) => {
+  const timeout = setTimeout(() => {
+    window.location.href = download;
+  }, 2500);
 
   const clearTimers = () => {
     clearInterval(heartbeat);
@@ -41,16 +70,16 @@ const openXplaMobile = (mobileUri: string) => {
 
   try {
     window.location.href = mobileUri;
-  } catch {
-
-  }
+  } catch {}
 };
 
-export class XplaWalletconnectQrcodeModal implements IQRCodeModal {
-  isC2X?: boolean
 
-  constructor(isC2X?: boolean) {
-    this.isC2X = isC2X
+
+export class XplaWalletconnectQrcodeModal implements IQRCodeModal {
+  walletApp?: WalletApp | boolean
+
+  constructor(walletApp?: WalletApp | boolean) {
+    this.walletApp = walletApp
   }
 
   modalContainer: HTMLDivElement | null = null;
@@ -76,14 +105,32 @@ export class XplaWalletconnectQrcodeModal implements IQRCodeModal {
 
     let schemeUri = '';
     let mobileUri = '';
+    let appName = '';
+    let download = '';
 
-    if (this.isC2X) {
-      schemeUri = `https://c2xvault.page.link/?link=https://www.c2x.world?${query}&apn=c2xvault.android&isi=1642858297&ibi=c2xvault.ios`;
-      mobileUri = `https://c2xvault.page.link/?link=https://www.c2x.world?${query}&apn=c2xvault.android&isi=1642858297&ibi=c2xvault.ios`;
-      // mobileUri = `c2xvault://wallet_connect?action=wallet_connect&payload=${encodeURIComponent(uri)}`;
+    if (!this.walletApp || typeof this.walletApp === 'boolean') {
+      if (this.walletApp) {
+        schemeUri = WalletAppShemeUri[WalletApp.XPLA_GAMES].replace('{query}', query);
+        mobileUri = WalletAppMobileUri[WalletApp.XPLA_GAMES].replace('{query}', query);
+        appName = WalletAppName[WalletApp.XPLA_GAMES];
+      } else {
+        schemeUri = WalletAppShemeUri[WalletApp.XPLA_VAULT].replace('{query}', query);
+        mobileUri = WalletAppMobileUri[WalletApp.XPLA_VAULT].replace('{query}', encodeURIComponent(uri));
+        appName = WalletAppName[WalletApp.XPLA_VAULT];
+
+        download = downloadUrl(WalletApp.XPLA_VAULT);
+      }
     } else {
-      schemeUri = `https://xplavault.page.link/?link=https://www.xpla.io?${query}&apn=xpla.android&isi=1640593143&ibi=xpla.ios`;
-      mobileUri = `xplavault://wallet_connect?action=wallet_connect&payload=${encodeURIComponent(uri)}`;
+      if (this.walletApp === WalletApp.XPLA_VAULT || this.walletApp === WalletApp.XPLAYZ) {
+        schemeUri = WalletAppShemeUri[this.walletApp].replace('{query}', query);
+        mobileUri = WalletAppMobileUri[this.walletApp].replace('{query}', encodeURIComponent(uri));
+
+        download = downloadUrl(this.walletApp);
+      } else {
+        schemeUri = WalletAppShemeUri[this.walletApp].replace('{query}', query);
+        mobileUri = WalletAppMobileUri[this.walletApp].replace('{query}', query);
+      }
+      appName = WalletAppName[this.walletApp];
     }
 
     const element = createModalElement({
@@ -96,14 +143,14 @@ export class XplaWalletconnectQrcodeModal implements IQRCodeModal {
         }
         this.close();
       },
-      isC2X: this.isC2X,
+      appName
     });
 
     if (isMobileBrowser()) {
-      if (this.isC2X) {
-        window.location.href = mobileUri;
+      if (!this.walletApp || this.walletApp === WalletApp.XPLA_VAULT || this.walletApp === WalletApp.XPLAYZ) {
+        openXplaMobile(mobileUri, download)
       } else {
-        openXplaMobile(mobileUri)
+        window.location.href = mobileUri;
       }
     }
 
@@ -134,12 +181,12 @@ function createModalElement({
   schemeUri,
   mobileUri,
   onClose,
-  isC2X,
+  appName
 }: {
   schemeUri: string;
   mobileUri: string;
   onClose: () => void;
-  isC2X: boolean | undefined;
+  appName: string;
 }): HTMLElement {
   const isMobile = isMobileBrowser();
 
@@ -198,11 +245,7 @@ function createModalElement({
     button.addEventListener('click', () => {
       window.location.href = mobileUri;
     });
-    if (isC2X) {
-      button.textContent = 'Open XPLA GAMES';
-    } else {
-      button.textContent = 'Open XPLA Vault';
-    }
+    button.textContent = `Open ${appName}`;
 
     content.appendChild(button);
   } else {

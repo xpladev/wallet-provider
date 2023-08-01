@@ -103,3 +103,9 @@ export type WalletStates =
         'post' | 'sign' | 'sign-bytes' | 'cw20-token' | 'network'
       >;
     };
+
+export enum WalletApp {
+  XPLA_VAULT = 'XPLA_VAULT',
+  XPLA_GAMES = 'XPLA_GAMES',
+  XPLAYZ = 'XPLAYZ'
+}

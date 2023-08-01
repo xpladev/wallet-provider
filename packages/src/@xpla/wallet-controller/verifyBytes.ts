@@ -1,23 +1,27 @@
 import { SignBytesResult } from '@xpla/wallet-types';
-import jscrypto from 'jscrypto';
-import secp256k1 from 'secp256k1';
+import { recoverPublicKey } from '@ethersproject/signing-key';
+import { keccak256 } from '@ethersproject/keccak256';
+import { computeAddress } from '@ethersproject/transactions';
 
 export function verifyBytes(
   bytes: Buffer,
   signBytesResult: SignBytesResult['result'],
 ): boolean {
-  const publicKey = signBytesResult.public_key?.toProto();
+	const publicKey = signBytesResult.public_key;
 
-  if (publicKey && 'key' in publicKey) {
-    return secp256k1.ecdsaVerify(
-      signBytesResult.signature,
-      Buffer.from(
-        jscrypto.SHA256.hash(new jscrypto.Word32Array(bytes)).toString(),
-        'hex',
-      ),
-      publicKey.key,
-    );
-  }
+	if (publicKey && 'key' in publicKey) {
+		const pub = computeAddress(
+			recoverPublicKey(
+				keccak256(bytes),
+				signBytesResult.signature
+			)
+		);
+    
+		return (
+			(publicKey.rawAddress() as Buffer).toString('hex').toLowerCase()
+				=== pub.substring(2).toLowerCase()
+		);
+	}
 
-  return false;
+	return false;
 }
