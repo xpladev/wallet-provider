@@ -4,6 +4,7 @@ import {
   LCDClient,
   PublicKey,
   Tx,
+  SignMode,
 } from '@xpla/xpla.js';
 import {
   ConnectedWallet,
@@ -499,16 +500,12 @@ export class WalletController {
         this.enableWalletConnect(wcConnect(this.options, false, _walletApp));
         break;
       case ConnectType.EXTENSION:
-        console.log('extension start');
-
         if (!this.extension) {
           throw new Error(`extension instance is not created!`);
         }
 
-        await this.extension.connect(identifier);
+        this.extension.connect(identifier);
         this.enableExtension();
-
-        console.log('extension end');
         break;
       default:
         throw new Error(`Unknown ConnectType!`);
@@ -609,7 +606,11 @@ export class WalletController {
    * @param xplaAddress only available new extension
    */
   sign = async (
-    tx: CreateTxOptions,
+    tx: CreateTxOptions & {
+      sequence?: number;
+      accountNumber?: number;
+      signMode?: SignMode;
+    },
     xplaAddress?: string,
   ): Promise<SignResult> => {
     if (this.disableExtension) {
@@ -772,8 +773,6 @@ export class WalletController {
         network: next.network,
       };
     }
-
-    console.log(next);
 
     if (prev.status !== next.status || !deepEqual(prev, next)) {
       this._states.next(next);

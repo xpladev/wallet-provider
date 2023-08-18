@@ -8,7 +8,7 @@ import {
   useConnectedWallet,
   UserDenied,
   WalletApp,
-} from '../@xpla/wallet-provider';
+} from '@xpla/wallet-provider';
 import React, { useCallback, useState } from 'react';
 import { getEstimatedFee } from './utils';
 

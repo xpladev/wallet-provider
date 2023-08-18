@@ -4,16 +4,19 @@ export interface NetworkInfo {
   /** Network name (e.g. mainnet) */
   name: string;
 
-  /** chainID (e.g. columbus-5) */
+  /** chainID (e.g. dimension_37-1) */
   chainID: string;
 
-  /** lcd endpoint (e.g. https://lcd.xpla.net) */
+  /** lcd endpoint (e.g. https://dimension-lcd.xpla.dev) */
   lcd: string;
 
-  /** api endpoint (e.g. https://api.xpla.net) */
+  /** ecd endpoint (e.g. https://dimension-evm-rpc.xpla.dev) */
+  ecd: string;
+
+  /** api endpoint (e.g. https://api.xpla.io) */
   api?: string;
 
-  /** mantle endpoint (e.g. https://mantle.xpla.net) */
+  /** mantle endpoint (e.g. https://mantle.xpla.dev) */
   mantle?: string;
 
   /** wallet connect ID (e.g. 2) */

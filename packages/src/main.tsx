@@ -1,12 +1,13 @@
-import { getChainOptions, WalletProvider } from '@xpla/wallet-provider';
-import { ConnectSample } from 'components/ConnectSample';
-import { CW20TokensSample } from 'components/CW20TokensSample';
-import { NetworkSample } from 'components/NetworkSample';
-import { QuerySample } from 'components/QuerySample';
-import { SignBytesSample } from 'components/SignBytesSample';
-import { TxSample } from 'components/TxSample';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { getChainOptions, WalletControllerChainOptions, WalletProvider } from '@xpla/wallet-provider';
+import { ConnectSample } from 'components/ConnectSample';
+import { QuerySample } from 'components/QuerySample';
+import { TxSample } from 'components/TxSample';
+import { SignSample } from 'components/SignSample';
+import { SignBytesSample } from 'components/SignBytesSample';
+import { CW20TokensSample } from 'components/CW20TokensSample';
+import { NetworkSample } from 'components/NetworkSample';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
       <ConnectSample />
       <QuerySample />
       <TxSample />
+      <SignSample />
       <SignBytesSample />
       <CW20TokensSample />
       <NetworkSample />
@@ -28,11 +30,17 @@ function App() {
   );
 }
 
-getChainOptions().then((chainOptions) => {
-  ReactDOM.render(
+function Root({ chainOptions }: {chainOptions: WalletControllerChainOptions}) {
+  return (
     <WalletProvider {...chainOptions}>
       <App />
-    </WalletProvider>,
+    </WalletProvider>
+  )
+}
+
+getChainOptions().then((chainOptions) => {
+  ReactDOM.render(
+    <Root chainOptions={chainOptions} />,
     document.getElementById('root'),
   );
 });

@@ -1,4 +1,4 @@
-import { AccAddress, CreateTxOptions } from '@xpla/xpla.js';
+import { AccAddress, CreateTxOptions, SignMode } from '@xpla/xpla.js';
 import {
   Connection,
   ConnectType,
@@ -21,7 +21,14 @@ export interface ConnectedWallet {
   xplaAddress: HumanAddr;
   design?: string;
   post: (tx: CreateTxOptions, walletApp?: WalletApp | boolean) => Promise<TxResult>;
-  sign: (tx: CreateTxOptions) => Promise<SignResult>;
+  sign: (
+    tx: CreateTxOptions & {
+      sequence?: number;
+      accountNumber?: number;
+      signMode?: SignMode;
+    },
+    xplaAddress?: string
+  ) => Promise<SignResult>;
   signBytes: (bytes: Buffer) => Promise<SignBytesResult>;
   availablePost: boolean;
   availableSign: boolean;
@@ -36,7 +43,14 @@ interface CreateConnectedWalletParams {
   wallets: WalletInfo[];
   connection: Connection | undefined;
   post: (tx: CreateTxOptions, xplaAddress?: string, walletApp?: WalletApp | boolean) => Promise<TxResult>;
-  sign: (tx: CreateTxOptions, xplaAddress?: string) => Promise<SignResult>;
+  sign: (
+    tx: CreateTxOptions & {
+      sequence?: number;
+      accountNumber?: number;
+      signMode?: SignMode;
+    }, 
+    xplaAddress?: string
+  ) => Promise<SignResult>;
   signBytes: (bytes: Buffer, xplaAddress?: string) => Promise<SignBytesResult>;
   supportFeatures: Set<
     'post' | 'sign' | 'sign-bytes' | 'cw20-token' | 'network'
@@ -70,7 +84,13 @@ export function createConnectedWallet({
         post: (tx: CreateTxOptions, walletApp?: WalletApp | boolean) => {
           return post(tx, xplaAddress, walletApp);
         },
-        sign: (tx: CreateTxOptions) => {
+        sign: (
+          tx: CreateTxOptions & {
+            sequence?: number;
+            accountNumber?: number;
+            signMode?: SignMode;
+          }
+        ) => {
           return sign(tx, xplaAddress);
         },
         signBytes: (bytes: Buffer) => {

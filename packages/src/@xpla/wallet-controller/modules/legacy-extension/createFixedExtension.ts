@@ -5,7 +5,7 @@ import {
   WebExtensionTxUnspecifiedError,
   WebExtensionUserDenied,
 } from '@xpla/web-extension-interface';
-import { CreateTxOptions, Extension, Tx } from '@xpla/xpla.js';
+import { CreateTxOptions, Extension, SignMode, Tx } from '@xpla/xpla.js';
 
 type ConnectResponse = { address?: string };
 type PostResponse = {
@@ -35,7 +35,13 @@ type InfoResponse = NetworkInfo;
 
 export interface FixedExtension {
   post: (data: CreateTxOptions) => Promise<PostResponse>;
-  sign: (data: CreateTxOptions) => Promise<SignResponse>;
+  sign: (
+    data: CreateTxOptions & {
+      sequence?: number;
+      accountNumber?: number;
+      signMode?: SignMode;
+    }
+  ) => Promise<SignResponse>;
   signBytes: (bytes: Buffer) => Promise<SignBytesResponse>;
   info: () => Promise<InfoResponse>;
   connect: () => Promise<ConnectResponse>;

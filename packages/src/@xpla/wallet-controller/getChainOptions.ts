@@ -1,15 +1,6 @@
 import { NetworkInfo } from '@xpla/wallet-types';
 import { WalletControllerOptions } from './controller';
 
-interface ChainInfo {
-  name: string;
-  chainID: string;
-  lcd: string;
-  walletconnectID?: number;
-  api?: string;
-  mantle?: string;
-}
-
 export type WalletControllerChainOptions = Pick<
   WalletControllerOptions,
   'defaultNetwork' | 'walletConnectChainIds'
@@ -17,8 +8,10 @@ export type WalletControllerChainOptions = Pick<
 
 const FALLBACK_MAINNET = {
   name: 'mainnet',
-  chainID: 'cube-1',
-  lcd: 'http://3.39.94.98:1317',
+  chainID: 'dimension_37-1',
+  lcd: 'https://dimension-lcd.xpla.dev',
+  ecd: 'https://dimension-evm-rpc.xpla.dev',
+  api: 'https://dimension-api.xpla.io',
   walletconnectID: 1
 };
 
@@ -28,8 +21,10 @@ const FALLBACK: WalletControllerChainOptions = {
     1: FALLBACK_MAINNET,
     0: {
       name: 'testnet',
-      chainID: 'cube-1',
-      lcd: 'http://3.39.94.98:1317',
+      chainID: 'cube_47-5',
+      lcd: 'https://cube-lcd.xpla.dev',
+      ecd: 'https://cube-evm-rpc.xpla.dev',
+      api: "https://cube-api.xpla.io",
       walletconnectID: 0
     },
   },

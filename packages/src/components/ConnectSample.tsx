@@ -1,4 +1,4 @@
-import { useWallet, WalletStatus, ConnectType, WalletApp } from '../@xpla/wallet-provider';
+import { useWallet, WalletStatus, ConnectType, WalletApp } from '@xpla/wallet-provider';
 import React from 'react';
 
 export function ConnectSample() {
@@ -71,7 +71,7 @@ export function ConnectSample() {
                   // WalletApp.XPLA_GAMES
                   // WalletApp.XPLAYZ
 
-                  walletApp = true
+                  walletApp = WalletApp.XPLAYZ
                 }
                 return (
                   <button

@@ -10,7 +10,7 @@ import {
   WalletInfo,
   WalletStatus,
 } from '@xpla/wallet-types';
-import { CreateTxOptions } from '@xpla/xpla.js';
+import { CreateTxOptions, SignMode } from '@xpla/xpla.js';
 import { Context, createContext, useContext } from 'react';
 
 export interface Wallet {
@@ -305,7 +305,14 @@ export interface Wallet {
    *
    * @see WalletController#sign
    */
-  sign: (tx: CreateTxOptions, xplaAddress?: string) => Promise<SignResult>;
+  sign: (
+    tx: CreateTxOptions & {
+      sequence?: number;
+      accountNumber?: number;
+      signMode?: SignMode;
+    },
+    xplaAddress?: string
+  ) => Promise<SignResult>;
 
   /**
    * sign any bytes
