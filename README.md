@@ -448,7 +448,14 @@ export interface Wallet {
    *
    * @see WalletController#sign
    */
-  sign: (tx: CreateTxOptions, xplaAddress?: string) => Promise<SignResult>;
+  sign: (
+    tx: CreateTxOptions & {
+      sequence?: number;
+      accountNumber?: number;
+      signMode?: SignMode;
+    },
+    xplaAddress?: string,
+  ) => Promise<SignResult>;
   /**
    * sign any bytes
    *

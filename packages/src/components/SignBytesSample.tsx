@@ -5,7 +5,7 @@ import {
   useConnectedWallet,
   UserDenied,
   verifyBytes,
-} from '../@xpla/wallet-provider';
+} from '@xpla/wallet-provider';
 import React, { useCallback, useState } from 'react';
 
 const TEST_BYTES = Buffer.from('hello world');

@@ -1,9 +1,9 @@
 {
-  "author": "Xpla",
+  "author": "XPLA",
   "license": "Apache-2.0",
-  "repository": "git://github:xpla/wallet-provider",
-  "bugs": "https://github.com/xpla/wallet-provider/issues",
-  "homepage": "https://github.com/xpla/wallet-provider/tree/main/packages/src/{name}",
+  "repository": "https://github.com/xpladev/wallet-provider.git",
+  "bugs": "https://github.com/xpladev/wallet-provider/issues",
+  "homepage": "https://github.com/xpladev/wallet-provider",
   "engines": {
     "node": ">=16"
   },

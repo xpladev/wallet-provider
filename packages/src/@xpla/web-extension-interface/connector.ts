@@ -1,4 +1,4 @@
-import type { CreateTxOptions } from '@xpla/xpla.js';
+import type { CreateTxOptions, SignMode } from '@xpla/xpla.js';
 import type { Observer, Subscribable } from 'rxjs';
 import type { WebExtensionNetworkInfo } from './models/network';
 import type { WebExtensionStates } from './models/states';
@@ -43,7 +43,11 @@ export interface XplaWebExtensionConnector {
 
   sign: (
     xplaAddress: string,
-    tx: CreateTxOptions,
+    tx: CreateTxOptions & {
+      sequence?: number;
+      accountNumber?: number;
+      signMode?: SignMode;
+    },
   ) => Subscribable<WebExtensionTxResult<WebExtensionSignPayload>>;
 
   signBytes: (

@@ -23,6 +23,7 @@ const TEST_NETWORK = {
   name: 'test-network',
   chainID: 'bombay-12',
   lcd: 'https://lcd.terra.dev',
+  ecd: 'https://cube-evm-rpc.xpla.dev',
   walletconnectID: 0
 };
 

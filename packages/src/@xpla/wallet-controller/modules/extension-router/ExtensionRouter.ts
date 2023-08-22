@@ -9,7 +9,7 @@ import {
   WebExtensionStatus,
   WebExtensionTxResult,
 } from '@xpla/web-extension-interface';
-import { CreateTxOptions } from '@xpla/xpla.js';
+import { CreateTxOptions, SignMode } from '@xpla/xpla.js';
 import { BehaviorSubject, Subscribable } from 'rxjs';
 import { LegacyExtensionConnector } from '../legacy-extension';
 import { selectModal } from './modal';
@@ -185,7 +185,11 @@ export class ExtensionRouter {
   };
 
   sign = (
-    tx: CreateTxOptions,
+    tx: CreateTxOptions & {
+      sequence?: number;
+      accountNumber?: number;
+      signMode?: SignMode;
+    },
     xplaAddress?: string,
   ): Subscribable<WebExtensionTxResult<WebExtensionSignPayload>> => {
     if (!this._connector) {

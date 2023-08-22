@@ -10,7 +10,7 @@ import {
   WebExtensionTxResult,
   WebExtensionTxStatus,
 } from '@xpla/web-extension-interface';
-import { AccAddress, CreateTxOptions } from '@xpla/xpla.js';
+import { AccAddress, CreateTxOptions, SignMode } from '@xpla/xpla.js';
 import { BehaviorSubject, Observer, Subscribable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { createFixedExtension, FixedExtension } from './createFixedExtension';
@@ -91,7 +91,11 @@ export class LegacyExtensionConnector implements XplaWebExtensionConnector {
 
   sign = (
     xplaAddress: string,
-    tx: CreateTxOptions,
+    tx: CreateTxOptions & {
+      sequence?: number;
+      accountNumber?: number;
+      signMode?: SignMode;
+    },
   ): Subscribable<WebExtensionTxResult<WebExtensionSignPayload>> => {
     const subject = new BehaviorSubject<
       WebExtensionTxResult<WebExtensionSignPayload>
