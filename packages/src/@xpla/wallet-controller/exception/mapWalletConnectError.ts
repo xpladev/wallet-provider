@@ -5,6 +5,8 @@ import {
   TxFailed,
   TxUnspecifiedError,
   UserDenied,
+  SignUnspecifiedError,
+  SignBytesUnspecifiedError
 } from '@xpla/wallet-types';
 import {
   WalletConnectCreateTxFailed,
@@ -12,6 +14,7 @@ import {
   WalletConnectTxFailed,
   WalletConnectTxUnspecifiedError,
   WalletConnectUserDenied,
+  WalletConnectSignBytesUnspecifiedError,
 } from '../modules/walletconnect';
 import { isError } from './isError';
 
@@ -40,6 +43,52 @@ export function mapWalletConnectError(
   }
   return new TxUnspecifiedError(
     tx,
+    error instanceof Error ? error.message : String(error),
+  );
+}
+
+export function mapWalletConnectSignError(
+  tx: CreateTxOptions,
+  error: unknown,
+): Error {
+  if (
+    isError(error, UserDenied) ||
+    isError(error, Timeout) ||
+    isError(error, SignBytesUnspecifiedError)
+  ) {
+    return error;
+  } else if (isError(error, WalletConnectUserDenied)) {
+    return new UserDenied();
+  } else if (isError(error, WalletConnectTimeout)) {
+    return new Timeout(error.message);
+  } else if (isError(error, SignUnspecifiedError)) {
+    return new SignUnspecifiedError(tx, error.message);
+  }
+  return new SignUnspecifiedError(
+    tx,
+    error instanceof Error ? error.message : String(error),
+  );
+}
+
+export function mapWalletConnectSignBytesError(
+  bytes: Buffer,
+  error: unknown,
+): Error {
+  if (
+    isError(error, UserDenied) ||
+    isError(error, Timeout) ||
+    isError(error, SignBytesUnspecifiedError)
+  ) {
+    return error;
+  } else if (isError(error, WalletConnectUserDenied)) {
+    return new UserDenied();
+  } else if (isError(error, WalletConnectTimeout)) {
+    return new Timeout(error.message);
+  } else if (isError(error, WalletConnectSignBytesUnspecifiedError)) {
+    return new SignBytesUnspecifiedError(bytes, error.message);
+  }
+  return new SignBytesUnspecifiedError(
+    bytes,
     error instanceof Error ? error.message : String(error),
   );
 }

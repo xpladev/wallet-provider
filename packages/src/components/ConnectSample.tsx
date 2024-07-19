@@ -71,7 +71,7 @@ export function ConnectSample() {
                   // WalletApp.XPLA_GAMES
                   // WalletApp.XPLAYZ
 
-                  walletApp = WalletApp.XPLAYZ
+                  // walletApp = WalletApp.XPLAYZ
                 }
                 return (
                   <button

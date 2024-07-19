@@ -90,3 +90,33 @@ export class TxUnspecifiedError extends Error {
     )}`;
   };
 }
+
+export class SignUnspecifiedError extends Error {
+  constructor(public readonly tx: CreateTxOptions, message: string) {
+    super(message);
+    this.name = 'SignUnspecifiedError';
+  }
+
+  toString = () => {
+    return `[${this.name} message="${this.message}"]\n${JSON.stringify(
+      this.tx,
+      null,
+      2,
+    )}`;
+  };
+}
+
+export class SignBytesUnspecifiedError extends Error {
+  constructor(public readonly bytes: Buffer, message: string) {
+    super(message);
+    this.name = 'SignBytesUnspecifiedError';
+  }
+
+  toString = () => {
+    return `[${this.name} message="${this.message}"]\n${JSON.stringify(
+      this.bytes,
+      null,
+      2,
+    )}`;
+  };
+}

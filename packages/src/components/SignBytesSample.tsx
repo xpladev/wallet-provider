@@ -25,7 +25,12 @@ export function SignBytesSample() {
     setTxResult(null);
     setTxError(null);
     setVerifyResult(null);
-
+    
+    // undefined or false XPLA Vault
+    // true XPLA GAMES
+    // WalletApp.XPLA_VAULT
+    // WalletApp.XPLA_GAMES
+    // WalletApp.XPLAYZ
     connectedWallet
       .signBytes(TEST_BYTES)
       .then((nextSignBytesResult: SignBytesResult) => {
@@ -33,7 +38,6 @@ export function SignBytesSample() {
         setTxError(null);
       
         const result = verifyBytes(TEST_BYTES, nextSignBytesResult.result);
-        console.log(result)
         setVerifyResult(result ? 'Verify OK' : 'Verify failed');
 
         console.log(nextSignBytesResult)
