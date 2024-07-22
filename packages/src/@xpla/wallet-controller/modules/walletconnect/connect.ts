@@ -1,4 +1,4 @@
-import { CreateTxOptions } from '@xpla/xpla.js';
+import { CreateTxOptions, SignMode } from '@xpla/xpla.js';
 import { WalletApp } from '@xpla/wallet-types';
 import Connector from '@walletconnect/core';
 import * as cryptoLib from '@walletconnect/iso-crypto';
@@ -56,7 +56,14 @@ export interface WalletConnectController {
   session: () => Observable<WalletConnectSession>;
   getLatestSession: () => WalletConnectSession;
   post: (tx: CreateTxOptions, _walletApp?: WalletApp | boolean) => Promise<WalletConnectTxResult>;
-  sign: (tx: CreateTxOptions, _walletApp?: WalletApp | boolean) => Promise<WebExtensionSignPayload>;
+  sign: (
+    tx: CreateTxOptions & {
+      sequence?: number;
+      accountNumber?: number;
+      signMode?: SignMode;
+    }, 
+    _walletApp?: WalletApp | boolean
+  ) => Promise<WebExtensionSignPayload>;
   signBytes: (bytes: Buffer, _walletApp?: WalletApp | boolean) => Promise<WebExtensionSignBytesPayload>;
   disconnect: () => void;
 }
@@ -319,7 +326,7 @@ export function connect(
   }
 
   /**
-   * signBytes transaction
+   * sign transaction
    *
    * @param bytes: Buffer
    * @param walletApp wallet type, default is XPLA Vault
@@ -327,7 +334,14 @@ export function connect(
    * @throws { WalletConnectTimeout }
    * @throws { WalletConnectSignBytesUnspecifiedError }
    */
-  function sign(tx: CreateTxOptions, _walletApp?: WalletApp | boolean): Promise<WebExtensionSignPayload> {
+  function sign(
+    tx: CreateTxOptions  & {
+      sequence?: number;
+      accountNumber?: number;
+      signMode?: SignMode;
+    }, 
+    _walletApp?: WalletApp | boolean
+  ): Promise<WebExtensionSignPayload> {
     if (!connector || !connector.connected) {
       throw new Error(`WalletConnect is not connected!`);
     }
@@ -345,6 +359,9 @@ export function connect(
       //sequence: tx.sequence,
       feeDenoms: tx.feeDenoms,
       timeoutHeight: tx.timeoutHeight,
+      sequence: tx.sequence,
+      accountNumber: tx.accountNumber,
+      signMode: tx.signMode
     };
 
     if (isMobile()) {
