@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "build": "TS_NODE_PROJECT=tsconfig.script.json node -r ts-node/register -r tsconfig-paths/register scripts/build.ts",
-    "publish": "rocket-punch publish --registry http://34.42.217.201:4873/",
+    "publish": "rocket-punch publish",
     "start": "vite --open --port=9221 --host",
     "start:multiple-wallets": "TS_NODE_PROJECT=tsconfig.script.json node -r ts-node/register -r tsconfig-paths/register scripts/start.multiple-wallets.ts",
     "test": "vitest",

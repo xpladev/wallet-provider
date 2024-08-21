@@ -1,4 +1,4 @@
-import { MsgSend, SignMode, SyncTxBroadcastResult } from '@xpla/xpla.js';
+import { MsgSend, SyncTxBroadcastResult } from '@xpla/xpla.js';
 import {
   createLCDClient,
   CreateTxFailed,
@@ -59,7 +59,6 @@ export function SignSample() {
       .sign({
         msgs,
         fee,
-        signMode: SignMode.SIGN_MODE_LEGACY_AMINO_JSON
       })
       .then((nextSignResult: SignResult) => {
         setSignResult(nextSignResult);
