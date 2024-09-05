@@ -7,7 +7,6 @@ import {
   TxUnspecifiedError,
   useConnectedWallet,
   UserDenied,
-  WalletApp,
 } from '@xpla/wallet-provider';
 import React, { useCallback, useState } from 'react';
 import { getEstimatedFee } from './utils';
@@ -56,9 +55,8 @@ export function TxSample() {
     connectedWallet.post({
       fee,
       msgs,
-    }, WalletApp.XPLA_VAULT)
+    })
     .then((nextTxResult: TxResult) => {
-      console.log(nextTxResult);
       setTxResult(nextTxResult);
     })
     .catch((error: unknown) => {

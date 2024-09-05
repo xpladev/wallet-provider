@@ -387,6 +387,7 @@ export interface Wallet {
    *
    * @param { CreateTxOptions } tx transaction data
    * @param xplaAddress - does not work at this time. for the future extension
+   * @param walletApp - wallet type, default is XPLA Vault
    *
    * @return { Promise<TxResult> }
    *
@@ -437,6 +438,7 @@ export interface Wallet {
    *
    * @param { CreateTxOptions } tx transaction data
    * @param xplaAddress - does not work at this time. for the future extension
+   * @param walletApp - wallet type, default is XPLA Vault
    *
    * @return { Promise<SignResult> }
    *
@@ -455,6 +457,7 @@ export interface Wallet {
       signMode?: SignMode;
     },
     xplaAddress?: string,
+    walletApp?: WalletApp | boolean,
   ) => Promise<SignResult>;
   /**
    * sign any bytes
@@ -485,8 +488,16 @@ export interface Wallet {
    * ```
    *
    * @param bytes
+   * @param xplaAddress - does not work at this time. for the future extension
+   * @param walletApp - wallet type, default is XPLA Vault
+   *
+   * @return { Promise<SignBytesResult> }
    */
-  signBytes: (bytes: Buffer, xplaAddress?: string) => Promise<SignBytesResult>;
+  signBytes: (
+    bytes: Buffer,
+    xplaAddress?: string,
+    walletApp?: WalletApp | boolean,
+  ) => Promise<SignBytesResult>;
   /**
    * check if tokens are added on the extension
    *

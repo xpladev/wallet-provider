@@ -20,16 +20,22 @@ export interface ConnectedWallet {
   /** xplaAddress is same as walletAddress */
   xplaAddress: HumanAddr;
   design?: string;
-  post: (tx: CreateTxOptions, walletApp?: WalletApp | boolean) => Promise<TxResult>;
+  post: (
+    tx: CreateTxOptions,
+    walletApp?: WalletApp | boolean
+  ) => Promise<TxResult>;
   sign: (
     tx: CreateTxOptions & {
       sequence?: number;
       accountNumber?: number;
       signMode?: SignMode;
     },
-    xplaAddress?: string
+    walletApp?: WalletApp | boolean
   ) => Promise<SignResult>;
-  signBytes: (bytes: Buffer) => Promise<SignBytesResult>;
+  signBytes: (
+    bytes: Buffer,
+    walletApp?: WalletApp | boolean
+  ) => Promise<SignBytesResult>;
   availablePost: boolean;
   availableSign: boolean;
   availableSignBytes: boolean;
@@ -42,16 +48,25 @@ interface CreateConnectedWalletParams {
   network: NetworkInfo;
   wallets: WalletInfo[];
   connection: Connection | undefined;
-  post: (tx: CreateTxOptions, xplaAddress?: string, walletApp?: WalletApp | boolean) => Promise<TxResult>;
+  post: (
+    tx: CreateTxOptions,
+    xplaAddress?: string,
+    walletApp?: WalletApp | boolean,
+  ) => Promise<TxResult>;
   sign: (
     tx: CreateTxOptions & {
       sequence?: number;
       accountNumber?: number;
       signMode?: SignMode;
     }, 
-    xplaAddress?: string
+    xplaAddress?: string,
+    walletApp?: WalletApp | boolean,
   ) => Promise<SignResult>;
-  signBytes: (bytes: Buffer, xplaAddress?: string) => Promise<SignBytesResult>;
+  signBytes: (
+    bytes: Buffer,
+    xplaAddress?: string,
+    walletApp?: WalletApp | boolean,
+  ) => Promise<SignBytesResult>;
   supportFeatures: Set<
     'post' | 'sign' | 'sign-bytes' | 'cw20-token' | 'network'
   >;
@@ -89,12 +104,13 @@ export function createConnectedWallet({
             sequence?: number;
             accountNumber?: number;
             signMode?: SignMode;
-          }
+          },
+          walletApp?: WalletApp | boolean,
         ) => {
-          return sign(tx, xplaAddress);
+          return sign(tx, xplaAddress, walletApp);
         },
-        signBytes: (bytes: Buffer) => {
-          return signBytes(bytes, xplaAddress);
+        signBytes: (bytes: Buffer, walletApp?: WalletApp | boolean) => {
+          return signBytes(bytes, xplaAddress, walletApp);
         },
         availablePost: supportFeatures.has('post'),
         availableSign: supportFeatures.has('sign'),

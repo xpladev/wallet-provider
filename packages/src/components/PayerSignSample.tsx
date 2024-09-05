@@ -14,7 +14,7 @@ import { getEstimatedFee } from './utils';
 
 const TEST_TO_ADDRESS = 'xpla1fm828r38yc4szhad3lchdvu8caa4xr64jqe75x';
 
-export function SignSample() {
+export function PayerSignSample() {
   const [signResult, setSignResult] = useState<SignResult | null>(null);
   const [txResult, setTxResult] = useState<SyncTxBroadcastResult | null>(null);
   const [txError, setTxError] = useState<string | null>(null);
@@ -65,7 +65,6 @@ export function SignSample() {
 
         // broadcast
         const tx = nextSignResult.result;
-        console.log(JSON.stringify(tx, null, 2))
 
         const lcd = createLCDClient({ network: connectedWallet.network });
         
@@ -96,7 +95,7 @@ export function SignSample() {
 
   return (
     <div>
-      <h1>Sign Sample</h1>
+      <h1>Payer Sign Sample</h1>
 
       {connectedWallet?.availableSign &&
         !signResult &&

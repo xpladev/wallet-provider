@@ -31,3 +31,17 @@ export class WalletConnectTxUnspecifiedError extends Error {
     this.name = 'WalletConnectTxUnspecifiedError';
   }
 }
+
+export class WalletConnectSignUnspecifiedError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'WalletConnectSignUnspecifiedError';
+  }
+}
+
+export class WalletConnectSignBytesUnspecifiedError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'WalletConnectSignBytesUnspecifiedError';
+  }
+}

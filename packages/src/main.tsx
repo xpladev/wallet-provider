@@ -5,6 +5,7 @@ import { ConnectSample } from 'components/ConnectSample';
 import { QuerySample } from 'components/QuerySample';
 import { TxSample } from 'components/TxSample';
 import { SignSample } from 'components/SignSample';
+import { PayerSignSample } from 'components/PayerSignSample';
 import { SignBytesSample } from 'components/SignBytesSample';
 import { CW20TokensSample } from 'components/CW20TokensSample';
 import { NetworkSample } from 'components/NetworkSample';
@@ -23,6 +24,7 @@ function App() {
       <QuerySample />
       <TxSample />
       <SignSample />
+      <PayerSignSample />
       <SignBytesSample />
       <CW20TokensSample />
       <NetworkSample />

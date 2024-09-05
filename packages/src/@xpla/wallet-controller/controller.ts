@@ -3,6 +3,7 @@ import {
   CreateTxOptions,
   LCDClient,
   PublicKey,
+  SimplePublicKey,
   Tx,
   SignMode,
 } from '@xpla/xpla.js';
@@ -41,7 +42,11 @@ import {
   mapExtensionSignBytesError,
   mapExtensionTxError,
 } from './exception/mapExtensionTxError';
-import { mapWalletConnectError } from './exception/mapWalletConnectError';
+import { 
+  mapWalletConnectError,
+  mapWalletConnectSignError,
+  mapWalletConnectSignBytesError,
+} from './exception/mapWalletConnectError';
 import { selectConnection } from './modules/connect-modal';
 import {
   ExtensionRouter,
@@ -174,7 +179,7 @@ const CONNECTIONS = {
 const DEFAULT_WAITING_CHROME_EXTENSION_INSTALL_CHECK = 1000 * 3;
 
 const WALLETCONNECT_SUPPORT_FEATURES = new Set<XplaWebExtensionFeatures>([
-  'post',
+  'post', 'sign', 'sign-bytes'
 ]);
 
 const EMPTY_SUPPORT_FEATURES = new Set<XplaWebExtensionFeatures>();
@@ -612,6 +617,7 @@ export class WalletController {
       signMode?: SignMode;
     },
     xplaAddress?: string,
+    walletApp?: WalletApp | boolean,
   ): Promise<SignResult> => {
     if (this.disableExtension) {
       return new Promise<SignResult>((resolve, reject) => {
@@ -638,8 +644,31 @@ export class WalletController {
         });
       });
     }
+    // ---------------------------------------------
+    // wallet connect
+    // ---------------------------------------------
+    else if (this.walletConnect) {
+      if (walletApp && walletApp === WalletApp.XPLA_GAMES) {
+        throw new Error(`There are no connections that can be signing!`);
+      }
 
-    throw new Error(`sign() method only available on extension`);
+      return this.walletConnect
+        .sign(tx, walletApp)
+        .then(
+          (result) => {
+            return {
+                ...tx,
+                result: Tx.fromData(result, false),
+                success: true,
+            }
+          }
+        )
+        .catch((error) => {
+          throw mapWalletConnectSignError(tx, error);
+        });
+    } else {
+      throw new Error(`There are no connections that can be signing!`);
+    }
   };
 
   /**
@@ -650,6 +679,7 @@ export class WalletController {
   signBytes = async (
     bytes: Buffer,
     xplaAddress?: string,
+    walletApp?: WalletApp | boolean,
   ): Promise<SignBytesResult> => {
     if (this.disableExtension) {
       return new Promise<SignBytesResult>((resolve, reject) => {
@@ -685,9 +715,39 @@ export class WalletController {
           });
       });
     }
+    // ---------------------------------------------
+    // wallet connect
+    // ---------------------------------------------
+    else if (this.walletConnect) {
+      if (walletApp && walletApp === WalletApp.XPLA_GAMES) {
+        throw new Error(`There are no connections that can be signing bytes!`);
+      }
 
-    throw new Error(`signBytes() method only available on extension`);
-    // TODO implements signBytes() to other connect types
+      return this.walletConnect
+        .signBytes(bytes, walletApp)
+        .then(
+          (result) => {
+            const key = new SimplePublicKey(String(result.public_key)).toData()
+            return {
+              result: {
+                recid: result.recid,
+                signature: Uint8Array.from(
+                  Buffer.from(result.signature, 'base64'),
+                ),
+                public_key: key
+                  ? PublicKey.fromData(key)
+                  : undefined,
+              },
+              success: true,
+            }
+          }
+        )
+        .catch((error) => {
+          throw mapWalletConnectSignBytesError(bytes, error);
+        });
+    } else {
+      throw new Error(`There are no connections that can be signing bytes!`);
+    }
   };
 
   /**

@@ -15,6 +15,8 @@ import {
   WalletConnectTxFailed,
   WalletConnectTxUnspecifiedError,
   WalletConnectUserDenied,
+  WalletConnectSignUnspecifiedError,
+  WalletConnectSignBytesUnspecifiedError
 } from './errors';
 import SocketTransport from './impl/socket-transport';
 import { XplaWalletconnectQrcodeModal } from './modal';
@@ -23,6 +25,10 @@ import {
   WalletConnectSessionStatus,
   WalletConnectTxResult,
 } from './types';
+import {
+  WebExtensionSignPayload,
+  WebExtensionSignBytesPayload,
+} from '@xpla/web-extension-interface';
 
 export interface WalletConnectControllerOptions {
   /**
@@ -50,6 +56,8 @@ export interface WalletConnectController {
   session: () => Observable<WalletConnectSession>;
   getLatestSession: () => WalletConnectSession;
   post: (tx: CreateTxOptions, _walletApp?: WalletApp | boolean) => Promise<WalletConnectTxResult>;
+  sign: (tx: CreateTxOptions, _walletApp?: WalletApp | boolean) => Promise<WebExtensionSignPayload>;
+  signBytes: (bytes: Buffer, _walletApp?: WalletApp | boolean) => Promise<WebExtensionSignBytesPayload>;
   disconnect: () => void;
 }
 
@@ -228,6 +236,7 @@ export function connect(
    * post transaction
    *
    * @param tx transaction data
+   * @param walletApp wallet type, default is XPLA Vault
    * @throws { WalletConnectUserDenied }
    * @throws { WalletConnectCreateTxFailed }
    * @throws { WalletConnectTxFailed }
@@ -259,32 +268,12 @@ export function connect(
         JSON.stringify({
           id,
           handshakeTopic: connector.handshakeTopic,
+          method: 'post',
           params: serializedTxOptions,
         }),
       );
 
-      // FIXME changed walletconnect confirm schema
-      if (!_walletApp || typeof _walletApp === 'boolean') {
-        if (_walletApp) {
-          window.location.href = `c2xvault://walletconnect_confirm/?payload=${payload}`;  
-        } else {
-          window.location.href = `xplavault://walletconnect_confirm/?payload=${payload}`;
-        }
-      } else {
-        if (_walletApp === WalletApp.XPLA_VAULT) {
-          window.location.href = `xplavault://walletconnect_confirm/?payload=${payload}`;
-        } else if (_walletApp === WalletApp.XPLA_GAMES) {
-          window.location.href = `c2xvault://walletconnect_confirm/?payload=${payload}`;  
-        } else if (_walletApp === WalletApp.XPLAYZ) {
-          window.location.href = `xplayz://walletconnect_confirm/?payload=${payload}`;  
-        } else {
-          window.location.href = `xplavault://walletconnect_confirm/?payload=${payload}`;
-        }
-      }
-
-      //window.location.href = `terrastation://wallet_connect_confirm?id=${id}&handshakeTopic=${
-      //  connector.handshakeTopic
-      //}&params=${JSON.stringify([serializedTxOptions])}`;
+      confirm(payload, walletApp);
     }
 
     return connector
@@ -329,6 +318,177 @@ export function connect(
       });
   }
 
+  /**
+   * signBytes transaction
+   *
+   * @param bytes: Buffer
+   * @param walletApp wallet type, default is XPLA Vault
+   * @throws { WalletConnectUserDenied }
+   * @throws { WalletConnectTimeout }
+   * @throws { WalletConnectSignBytesUnspecifiedError }
+   */
+  function sign(tx: CreateTxOptions, _walletApp?: WalletApp | boolean): Promise<WebExtensionSignPayload> {
+    if (!connector || !connector.connected) {
+      throw new Error(`WalletConnect is not connected!`);
+    }
+
+    const id = Date.now();
+
+    const serializedTxOptions = {
+      msgs: tx.msgs.map((msg) => msg.toJSON()),
+      fee: tx.fee?.toJSON(),
+      memo: tx.memo,
+      gas: tx.gas,
+      gasPrices: tx.gasPrices?.toString(),
+      gasAdjustment: tx.gasAdjustment?.toString(),
+      //account_number: tx.account_number,
+      //sequence: tx.sequence,
+      feeDenoms: tx.feeDenoms,
+      timeoutHeight: tx.timeoutHeight,
+    };
+
+    if (isMobile()) {
+      const payload = btoa(
+        JSON.stringify({
+          id,
+          handshakeTopic: connector.handshakeTopic,
+          method: 'sign',
+          params: serializedTxOptions,
+        }),
+      );
+      confirm(payload, _walletApp);
+    }
+
+    return connector
+      .sendCustomRequest({
+        id,
+        method: 'sign',
+        params: [serializedTxOptions],
+      })
+      .catch((error) => {
+        let throwError = error;
+
+        try {
+          const { code, txhash, message, raw_message } = JSON.parse(
+            error.message,
+          );
+          switch (code) {
+            case 1:
+              throwError = new WalletConnectUserDenied();
+              break;
+            case 2:
+              throwError = new WalletConnectCreateTxFailed(message);
+              break;
+            case 3:
+              throwError = new WalletConnectTxFailed(
+                txhash,
+                message,
+                raw_message,
+              );
+              break;
+            case 4:
+              throwError = new WalletConnectTimeout(message);
+              break;
+            case 99:
+              throwError = new WalletConnectSignUnspecifiedError(message);
+              break;
+          }
+        } catch {
+          throwError = new WalletConnectSignUnspecifiedError(error.message);
+        }
+
+        throw throwError;
+      });
+  }
+
+  /**
+   * signBytes transaction
+   *
+   * @param bytes: Buffer
+   * @param bytes: WalletApp | boolean
+   * @throws { WalletConnectUserDenied }
+   * @throws { WalletConnectTimeout }
+   * @throws { WalletConnectSignBytesUnspecifiedError }
+   */
+  function signBytes(bytes: Buffer, _walletApp?: WalletApp | boolean): Promise<WebExtensionSignBytesPayload> {
+    if (!connector || !connector.connected) {
+      throw new Error(`WalletConnect is not connected!`);
+    }
+
+    const id = Date.now();
+
+    if (isMobile()) {
+      const payload = btoa(
+        JSON.stringify({
+          id,
+          handshakeTopic: connector.handshakeTopic,
+          method: 'signBytes',
+          params: bytes,
+        }),
+      );
+
+      confirm(payload, _walletApp);
+    }
+
+    return connector
+      .sendCustomRequest({
+        id,
+        method: 'signBytes',
+        params: [bytes],
+      })
+      .catch((error) => {
+        let throwError = error;
+
+        try {
+          const { code, message } = JSON.parse(
+            error.message,
+          );
+
+          switch (code) {
+            case 1:
+              throwError = new WalletConnectUserDenied();
+              break;
+            case 4:
+              throwError = new WalletConnectTimeout(message);
+              break;
+            case 99:
+              throwError = new WalletConnectSignBytesUnspecifiedError(message);
+              break;
+          }
+        } catch {
+          throwError = new WalletConnectSignBytesUnspecifiedError(error.message);
+        }
+
+        throw throwError;
+      });
+  }
+
+  /**
+   * mobile confirm
+   * 
+   * @param payload paylaod
+   * @param _walletApp wallet type, default is XPLA Vault
+   */
+  function confirm(payload: string, _walletApp?: WalletApp | boolean) {
+    if (!_walletApp || typeof _walletApp === 'boolean') {
+      if (_walletApp) {
+        window.location.href = `c2xvault://walletconnect_confirm/?payload=${payload}`;  
+      } else {
+        window.location.href = `xplavault://walletconnect_confirm/?payload=${payload}`;
+      }
+    } else {
+      if (_walletApp === WalletApp.XPLA_VAULT) {
+        window.location.href = `xplavault://walletconnect_confirm/?payload=${payload}`;
+      } else if (_walletApp === WalletApp.XPLA_GAMES) {
+        window.location.href = `c2xvault://walletconnect_confirm/?payload=${payload}`;  
+      } else if (_walletApp === WalletApp.XPLAYZ) {
+        window.location.href = `xplayz://walletconnect_confirm/?payload=${payload}`;  
+      } else {
+        window.location.href = `xplavault://walletconnect_confirm/?payload=${payload}`;
+      }
+    }
+  }
+
   // ---------------------------------------------
   // return
   // ---------------------------------------------
@@ -336,6 +496,8 @@ export function connect(
     session,
     getLatestSession,
     post,
+    sign,
+    signBytes,
     disconnect,
   };
 }
