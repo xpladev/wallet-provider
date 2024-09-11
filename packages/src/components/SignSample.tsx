@@ -58,7 +58,7 @@ export function SignSample() {
     connectedWallet
       .sign({
         msgs,
-        fee
+        fee,
       })
       .then((nextSignResult: SignResult) => {
         setSignResult(nextSignResult);
