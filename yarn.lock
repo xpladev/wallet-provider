@@ -10214,7 +10214,7 @@ __metadata:
     "@walletconnect/iso-crypto": ^1.6.6
     "@walletconnect/types": ^1.6.6
     "@walletconnect/utils": ^1.6.6
-    "@xpla/xpla.js": ^1.5.1
+    "@xpla/xpla.js": ^1.6.1
     bignumber.js: ^9.1.0
     bowser: ^2.11.0
     buffer: ^6.0.3
@@ -11306,7 +11306,7 @@ __metadata:
   dependencies:
     "@handbook/markdown-source-import": ^1.1.0
     "@ssen/prettier-config": ^2.0.1
-    "@xpla/xpla.js": ^1.5.1
+    "@xpla/xpla.js": ^1.6.1
     eslint: ^8.6.0
     eslint-config-prettier: ^8.3.0
     eslint-config-react-app: ^7.0.0
