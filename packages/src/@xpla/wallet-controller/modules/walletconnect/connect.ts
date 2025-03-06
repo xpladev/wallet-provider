@@ -118,7 +118,7 @@ export function connect(
 
       sessionSubject.next({
         status: WalletConnectSessionStatus.CONNECTED,
-        peerMeta: payload.params[0],
+        peerMeta: payload.params[0].peerMeta,
         xplaAddress: payload.params[0].accounts[0],
         chainId: payload.params[0].chainId,
       });
@@ -131,7 +131,7 @@ export function connect(
 
       sessionSubject.next({
         status: WalletConnectSessionStatus.CONNECTED,
-        peerMeta: payload.params[0],
+        peerMeta: payload.params[0].peerMeta,
         xplaAddress: payload.params[0].accounts[0],
         chainId: payload.params[0].chainId,
       });
