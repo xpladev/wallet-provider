@@ -2436,6 +2436,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@noble/secp256k1@npm:1.7.1":
+  version: 1.7.1
+  resolution: "@noble/secp256k1@npm:1.7.1"
+  checksum: d2301f1f7690368d8409a3152450458f27e54df47e3f917292de3de82c298770890c2de7c967d237eff9c95b70af485389a9695f73eb05a43e2bd562d18b18cb
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -3554,15 +3561,6 @@ __metadata:
   version: 0.16.8
   resolution: "@types/scheduler@npm:0.16.8"
   checksum: 6c091b096daa490093bf30dd7947cd28e5b2cd612ec93448432b33f724b162587fed9309a0acc104d97b69b1d49a0f3fc755a62282054d62975d53d7fd13472d
-  languageName: node
-  linkType: hard
-
-"@types/secp256k1@npm:^4.0.3":
-  version: 4.0.6
-  resolution: "@types/secp256k1@npm:4.0.6"
-  dependencies:
-    "@types/node": "*"
-  checksum: 984494caf49a4ce99fda2b9ea1840eb47af946b8c2737314108949bcc0c06b4880e871296bd49ed6ea4c8423e3a302ad79fec43abfc987330e7eb98f0c4e8ba4
   languageName: node
   linkType: hard
 
@@ -10197,6 +10195,7 @@ __metadata:
     "@ethersproject/keccak256": ^5.7.0
     "@ethersproject/signing-key": ^5.7.0
     "@ethersproject/transactions": ^5.7.0
+    "@noble/secp256k1": 1.7.1
     "@sentry/browser": ^6.14.1
     "@sentry/tracing": ^6.14.1
     "@types/puppeteer": ^5.4.4
@@ -10205,7 +10204,6 @@ __metadata:
     "@types/react": ^17.0.34
     "@types/react-dom": ^17.0.11
     "@types/react-router-dom": ^5.3.2
-    "@types/secp256k1": ^4.0.3
     "@types/styled-components": ^5.1.15
     "@types/webpack-env": ^1.16.3
     "@types/ws": ^8.2.0
@@ -10214,7 +10212,7 @@ __metadata:
     "@walletconnect/iso-crypto": ^1.6.6
     "@walletconnect/types": ^1.6.6
     "@walletconnect/utils": ^1.6.6
-    "@xpla/xpla.js": ^1.6.1
+    "@xpla/xpla.js": ^1.7.0
     bignumber.js: ^9.1.0
     bowser: ^2.11.0
     buffer: ^6.0.3
@@ -10233,7 +10231,6 @@ __metadata:
     react-router-dom: ^5.3.0
     rocket-punch: ^3.0.2
     rxjs: ^7.4.0
-    secp256k1: ^4.0.0
     styled-components: ^5.3.3
     terra-web-extension: ^0.11.4
     ts-node: ^10.4.0
@@ -11391,7 +11388,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"secp256k1@npm:^4.0.0, secp256k1@npm:^4.0.2":
+"secp256k1@npm:^4.0.2":
   version: 4.0.3
   resolution: "secp256k1@npm:4.0.3"
   dependencies:

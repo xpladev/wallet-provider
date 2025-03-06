@@ -1,6 +1,6 @@
 import { SignBytesResult } from '@xpla/wallet-types';
 import { keccak256 } from '@ethersproject/keccak256';
-import secp256k1 from 'secp256k1'
+import { verify } from '@noble/secp256k1';
 
 export function verifyBytes(
   bytes: Buffer,
@@ -9,11 +9,13 @@ export function verifyBytes(
 	const publicKey = signBytesResult.public_key?.toProto();
 
 	if (publicKey && 'key' in publicKey) {
-    return secp256k1.ecdsaVerify(
-      signBytesResult.signature,
-      Buffer.from(keccak256(bytes).substring(2), 'hex'),
-      publicKey.key,
+    const sig = signBytesResult.signature;
+    const hash =  Uint8Array.from(
+      Buffer.from(keccak256(bytes).substring(2), 'hex')
     );
+    const pubKey = publicKey.key;
+    
+    return verify(sig, hash, pubKey);
   }
 
 	return false;
