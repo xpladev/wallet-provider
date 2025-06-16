@@ -110,5 +110,6 @@ export type WalletStates =
 export enum WalletApp {
   XPLA_VAULT = 'XPLA_VAULT',
   XPLA_GAMES = 'XPLA_GAMES',
-  XPLAYZ = 'XPLAYZ'
+  XPLA_GAMES_NEW = 'XPLA_GAMES_NEW',
+  XPLAYZ = 'XPLAYZ',
 }

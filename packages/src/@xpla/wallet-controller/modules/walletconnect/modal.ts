@@ -7,6 +7,7 @@ import { modalStyle } from './modal.style';
 const walletName = {
   [WalletApp.XPLA_VAULT]: 'XPLA Vault',
   [WalletApp.XPLA_GAMES]: 'XPLA GAMES',
+  [WalletApp.XPLA_GAMES_NEW]: 'XPLA GAMES NEW',
   [WalletApp.XPLAYZ]: 'xPlayz',
 }
 
@@ -42,6 +43,7 @@ export class XplaWalletconnectQrcodeModal implements IQRCodeModal {
     const walletSchemeUri = {
       [WalletApp.XPLA_VAULT]: `https://xplavault.page.link/?link=https://www.xpla.io?${query}&apn=xpla.android&isi=1640593143&ibi=xpla.ios`,
       [WalletApp.XPLA_GAMES]: `https://c2xvault.page.link/?link=https://www.xpla.games?${query}&apn=c2xvault.android&isi=1642858297&ibi=c2xvault.ios`,
+      [WalletApp.XPLA_GAMES_NEW]: `xgameswallet://wallet_connect?action=wallet_connect&payload=${query}`,
       [WalletApp.XPLAYZ]: `https://xplayz.page.link/?link=https://www.zenaad.com?${query}&apn=com.zenaad.xplayz&isi=1524577064&ibi=com.zenaad.xplayz`,
     }
 
