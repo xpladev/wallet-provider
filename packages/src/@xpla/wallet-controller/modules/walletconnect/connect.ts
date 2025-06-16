@@ -498,6 +498,8 @@ export function connect(
         window.location.href = `xplavault://walletconnect_confirm/?payload=${payload}`;
       } else if (_walletApp === WalletApp.XPLA_GAMES) {
         window.location.href = `c2xvault://walletconnect_confirm/?payload=${payload}`;  
+      } else if (_walletApp === WalletApp.XPLA_GAMES_NEW) {
+        window.location.href = `xgameswallet://walletconnect_confirm/?payload=${payload}`;
       } else if (_walletApp === WalletApp.XPLAYZ) {
         window.location.href = `xplayz://walletconnect_confirm/?payload=${payload}`;  
       } else {
