@@ -22,6 +22,11 @@ export function SignBytesSample() {
       return;
     }
 
+    if (connectedWallet.network.chainID.startsWith('dimension')) {
+      alert(`Please only execute this example on Testnet`);
+      return;
+    }
+
     setTxResult(null);
     setTxError(null);
     setVerifyResult(null);

@@ -63,7 +63,7 @@ export function ConnectSample() {
             <br />
             {availableConnections.map(
               ({ type, name, icon, identifier = '' }) => {
-                let walletApp: WalletApp |  boolean | undefined = undefined;
+                let walletApp: WalletApp |  boolean | undefined = WalletApp.XPLA_GAMES;
                 if (type === ConnectType.WALLETCONNECT) {
                   // undefined or false XPLA Vault
                   // true XPLA GAMES
